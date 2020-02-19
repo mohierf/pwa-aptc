@@ -9,10 +9,16 @@ npm install
 ```
 npm run serve
 ```
+With the Docker image:
+```
+docker-compose up
+```
 
 ### Compiles and minifies for production
 ```
 npm run build
+
+npm run build --verbose
 ```
 
 ### Run your tests

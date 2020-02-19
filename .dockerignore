@@ -1,0 +1,4 @@
+# Do not copy this directory to the docker container
+node_modules
+.git
+.gitignore
