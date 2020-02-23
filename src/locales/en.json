@@ -1,0 +1,127 @@
+{
+  "name": "English",
+  "logo": {
+    "alt": "Application logo",
+    "title": "Application logo"
+  },
+  "about": {
+    "title": "About the application",
+    "hello": "Welcome",
+    "header": "About the application",
+    "p1": "Application {name}",
+    "p2": "Version {version}",
+    "p3": "",
+    "footer": "Copyright (c) 2020 - Fmo"
+  },
+  "legals": {
+    "title": "Legal notice",
+    "header": "Legal notice",
+    "p1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla velit purus, finibus at finibus vitae, imperdiet a turpis. Praesent imperdiet, lacus et suscipit vehicula, ligula est ultricies nulla, in varius magna tellus non ex. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla tempor facilisis diam, ut dictum nisl cursus quis. Aenean hendrerit purus augue, in rutrum metus condimentum in. Donec tincidunt in massa sed bibendum. In hac habitasse platea dictumst. Fusce pulvinar lorem vehicula viverra varius. Praesent placerat ex vel dictum facilisis. Suspendisse dui nulla, faucibus sit amet neque sed, pretium placerat turpis. Mauris mattis maximus risus non elementum. Nunc eu ex non ex interdum pulvinar. Integer nec elit nulla. Curabitur vestibulum, lectus vel rutrum sollicitudin, risus neque consequat purus, quis pretium dui nisl tempor neque. ",
+    "p2": "Donec purus lorem, tempor at augue ut, dapibus malesuada justo. Nulla ut posuere ex. Cras a elit ut nulla pharetra eleifend nec non nunc. Aenean vehicula lorem purus, a vehicula enim commodo ac. Sed lacinia consequat diam, quis posuere libero mattis a. Proin sodales, lorem eu venenatis accumsan, eros nunc dapibus purus, quis fringilla tellus erat ac tellus. Integer commodo nisi a leo faucibus, id iaculis magna rutrum. Fusce eu finibus lorem, non convallis elit. In pharetra ante lorem, ac dictum nunc tincidunt ac. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin leo urna, interdum at fermentum et, lobortis vulputate quam. Proin tincidunt volutpat tortor quis molestie. Pellentesque facilisis tempus neque in pharetra. Donec sed varius est. Ut ultricies rhoncus purus. In a augue venenatis, euismod nisi quis, tempus sapien. ",
+    "p3": "Quisque a scelerisque nunc. In ornare lorem odio, ornare vestibulum metus lacinia vel. Proin a posuere justo, quis auctor massa. Duis vitae ultrices leo, sit amet cursus ligula. Proin at tellus arcu. Phasellus convallis lorem vitae ipsum sodales eleifend. Quisque volutpat rhoncus aliquet. Praesent porta, ipsum ut interdum rutrum, mauris neque cursus quam, eget tincidunt ligula lectus quis turpis. ",
+    "p4": "Nunc mollis aliquam tincidunt. Sed ut quam ut est laoreet lacinia. Sed semper porta ullamcorper. Curabitur tempus tortor id ex hendrerit dictum. Pellentesque non felis vitae elit rutrum mattis ut eget lectus. Nulla vestibulum imperdiet ligula. Aenean et diam vel velit finibus bibendum. Maecenas enim erat, tincidunt ut viverra et, fringilla sit amet ex. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque pulvinar odio vitae purus lacinia imperdiet. ",
+    "p5": "Cras nisl eros, porttitor ac nibh et, convallis accumsan nisl. In ultricies vulputate tortor eu sagittis. Nam vitae aliquam nulla. Etiam sed tincidunt lectus. Nulla lectus dolor, scelerisque eget blandit ac, aliquet eu quam. Mauris ac pretium nulla. Curabitur finibus lorem ac eros hendrerit cursus. Pellentesque bibendum eleifend mauris non venenatis. Morbi ac tristique risus. Curabitur auctor mauris nibh, eu bibendum diam euismod eget. Donec et nibh nec sapien efficitur laoreet. Phasellus purus mi, dictum sit amet semper sit amet, convallis eu diam. Vestibulum lobortis nulla at sollicitudin sagittis. Quisque luctus, enim ac feugiat dignissim, augue metus tempus elit, non consectetur velit quam vehicula tortor. ",
+    "footer": "Copyright (c) 2020 - Fmo"
+  },
+  "footer": {
+    "message": "Copyright (c) 2020 - Fmo"
+  },
+  "users": {
+    "ok_message": "Got all users",
+    "title": "Registered users",
+    "header": "-/-",
+    "footer": "(c) 2019",
+    "d_login": "Click this button if you still have an account and you want to connect",
+    "ok_login": "Successful connection. Welcome home -)",
+    "ko_login": "Username or password is incorrect",
+    "d_register": "Click this button if you do not have an account yet and you want to request for an account creation",
+    "ok_register": "Successful registration. You can now sign in with your e-mail address and password.",
+    "ko_register": "Registration failed. The user is probably yet registered.",
+    "d_lost_password": "Click this button if you still have an account but you do not remember your password. We will send you an email to reactivate you account.",
+    "d_lost_password_username": "You must indicate your email address as a username to request for a new password.",
+    "ok_lost_password": "Successful registration. You can now sign in with your e-mail address and password.",
+    "ko_lost_password": "Registration failed. The user is probably yet registered.",
+    "unnamed": "No name user",
+    "unconnected": "No user connected",
+    "roles": {
+      "tenant": "Tenant"
+    },
+    "ok_language": "Language switched to {name}"
+  },
+  "home": {
+    "title": "Home page",
+    "hello": "Welcome {user}"
+  },
+  "alert": {
+    "title": "Raise a problem",
+    "ok_message": "Successful alert -)",
+    "ko_message": "Problem when alerting!"
+  },
+  "login": {
+    "title": "Sign-in"
+  },
+  "register": {
+    "title": "Registration"
+  },
+  "lost_password": {
+    "title": "Lost password"
+  },
+  "actions": {
+    "t_loading": "Loading...",
+    "b_alert": "Submit",
+    "b_legals": "Legals",
+    "b_login": "Sign in",
+    "b_logout": "Sign out",
+    "b_register": "Sign up",
+    "b_reset": "Reset",
+    "b_cancel": "Cancel",
+    "b_remove": "Remove",
+    "b_browse": "Browse",
+    "b_lost_password": "Lost password"
+  },
+
+  "fields": {
+    "f_username": "Username",
+    "d_username": "Username is your email address",
+    "p_username": "email address",
+    "f_password": "Password",
+    "d_password": "Password is required",
+    "p_password": "",
+    "f_first_name": "First name",
+    "d_first_name": "",
+    "p_first_name": "First name",
+    "f_last_name": "Last name",
+    "d_last_name": "",
+    "p_last_name": "Last name",
+    "f_email": "Email address",
+    "d_email": "We'll never share your email with anyone else.",
+    "p_email": "email address"
+  },
+
+  "activities": {
+    "ok_message": "Got all activities",
+    "no_items": "No available activities",
+    "fields": {
+      "id": "ID",
+      "name": "Activity",
+      "status": "Status",
+      "url": " ",
+      "details": " "
+    }
+  },
+
+  "phes": {
+    "ok_message": "Got all events",
+    "no_items": "No available events",
+    "fields": {
+      "id": "ID",
+      "status": "Status",
+      "title": "Event",
+      "type": " ",
+      "description": "Description",
+      "dateEvent": "Date",
+      "version": "Version",
+      "needAcknowledge": "Ack?"
+    }
+  }
+}

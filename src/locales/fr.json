@@ -1,0 +1,139 @@
+{
+  "name": "Français",
+  "logo": {
+    "alt": "Logo de l'application",
+    "title": "Logo de l'application"
+  },
+  "about": {
+    "title": "A propos de l'application",
+    "hello": "Bienvenue",
+    "header": "A propos de l'application",
+    "p1": "Application {name}",
+    "p2": "Version {version}",
+    "p3": "",
+    "footer": "Copyright (c) 2020 - Fmo"
+  },
+  "legals": {
+    "title": "Mentions légales",
+    "header": "",
+    "p1": "<h1>Mentions légales</h1> La consultation du site Internet « vizavy.fr » (le Site) est subordonnée à l’acceptation intégrale et au respect par les internautes, des conditions d’utilisation suivantes.  L’internaute s’engage d’ores et déjà à faire des informations contenues sur le Site un usage personnel et non commercial. En cas de non-respect des présentes dispositions par l’internaute, sa responsabilité pourrait se voir engagée.  <h2>Identification et publication</h2> <h3>Informations sur l’éditeur du site web</h3> <ul> <li>Société DPM TECHNOLOGIES</li> <li>SAS</li> <li>Capital social : 150 000,00 euros</li> <li>Adresse du siège social : Technosite – 26 rue Bartélémy de Laffemas – 26000 VALENCE</li> <li>Immatriculée au RCS de Romans sous le numéro B 531 423 507</li> <li>SIRET : 551 423 507 00015</li> <li>Téléphone : 04 75 75 98 68</li> <li>TVA intracommunautaire : FR 67 531 423 507</li> <li>NAF : 7112B</li> </ul> Direction de la publication : Service production DPM TECHNOLOGIES.  Adresse électronique : support@vizavy.fr <h3>Informations sur l’hébergeur</h3> le site de production VIZAVY.FR est hébergé par C’PRO – Siège Social : 53, avenue des Langories Plateau de Lautagne 26000 VALENCE<br> Le Site est la propriété exclusive de la société DPM TECHNOLOGIES.  Il a été conçu et réalisé par la société DPM TECHNOLOGIES.",
+    "p2":"<h2>Contenu du Site</h2> Le Site est exploité par la société DPM TECHNOLOGIES. Il propose les services de suivi des interventions d’entretien et de dépannage des équipements, depuis la demande d’intervention effectuée par le locataire, la prise de rendez-vous avec le prestataire, et la clôture avec le compte-rendu d’intervention du prestataire.  <h2>Propriété intellectuelle</h2> <h3>Droits d’auteur</h3> Le Site constitue une œuvre originale et la société DPM TECHNOLOGIES est titulaire des droits d’auteur sur celle-ci, au regard des articles L111-1 et suivants du Code de la propriété intellectuelle.  Il est rappelé que toutes images, textes ou éléments graphiques contenus par le présent Site peuvent constituer des œuvres de l’esprit, bénéficiant ainsi de la protection au titre du droit d’auteur, selon les dispositions de ce même Code.  Toute représentation ou reproduction, totale ou partielle, permanente ou temporaire, sur un support informatique et/ou papier, et par quelque procédé que ce soit (notamment par voie de framing), de l’un ou l’autre des éléments du Site, sans l’accord préalable et exprès de la société DPM TECHNOLOGIES, est interdite et constitue un acte de contrefaçon, qui pourra entraîner des condamnations civiles et/ou pénales, selon les articles L331-1 et suivants et L335-2 et suivants du Code de la propriété intellectuelle, sous réserve des exceptions mentionnées à l’article L122-5 de ce même Code.  <h3>Droit des marques</h3> Les marques de la société DPM TECHNOLOGIES, de ses fournisseurs et de ses partenaires, ainsi que les logos figurant sur le Site, leur confèrent une exclusivité d’exploitation de ceux-ci. Toute reproduction totale ou partielle, voire imitation, de ces marques ou logos, effectuée à partir des éléments du Site, sans l’autorisation expresse de la société DPM TECHNOLOGIES, est donc prohibée, au sens des articles L.713-2 et L.713-3 du Code de la propriété intellectuelle.  <h3>Liens hypertextes</h3> L’établissement de liens hypertextes vers le Site ou l’un de ses éléments nécessite une autorisation préalable et écrite de la société DPM TECHNOLOGIES.",
+    "p3": "<h2>Protection des données personnelles</h2> L’internaute peut être amené à déposer certaines données personnelles (nom, prénom, adresse email, numéro de téléphone) et documents professionnels (photos, devis, factures, compte-rendus, rapports) en répondant aux formulaires qui lui sont proposés, notamment en vue du suivi des demandes d’interventions. La saisie de ces données est nécessaire au traitement de la demande de l’internaute par la société DPM TECHNOLOGIES. À défaut d’avoir saisi ces données dans les formulaires, l’internaute ne verra pas sa demande traitée par la société DPM TECHNOLOGIES.<br>  La société DPM TECHNOLOGIES respecte les dispositions de la loi n°78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers et aux libertés modifiée en 2004 et du Règlement européen sur les données personnelles du 27 avril 2016 et s’engage à prendre toute précaution nécessaire pour préserver la sécurité des informations nominatives confiées. Aucune information à caractère personnel ne sera communiquée à des sociétés tierces sans l’accord préalable et éclairé de l’internaute.  <br>L’internaute peut à tout moment exercer son droit d’accès, de rectification, de suppression, d’opposition, de limitation et de portabilité concernant les informations qu’il fournit auprès de la société DPM TECHNOLOGIES, par courrier à l’adresse de la société mentionnée ci-dessus (rubrique Identification et Publication) ou par email, à l’adresse support@vizavy.fr. L’exercice de l’ensemble de ces droits est subordonné à la transmission d’un justificatif d’identité à la société DPM TECHNOLOGIES avec la demande formulée par l’internaute en ce sens.  <h3>Traitement des données après la mort</h3> Conformément à l’article 40-1 nouveau de la loi du 6 janvier 1978 précitée, l’internaute est informé qu’il peut communiquer à DPM TECHNOLOGIES les directives qu’il souhaite voir appliquer pour gérer ses données personnelles après sa mort. Les directives peuvent être envoyées à support@vizavy.fr.  <h2>Cookies</h2> Un cookie est un fichier texte déposé sur le disque dur de l’internaute par le serveur du site internet visité par lui. Un cookie ne permet cependant pas d’identifier l’internaute. Il crée simplement un numéro aléatoire qui enregistre des informations.<br>  Le Site implémente des cookies afin de faciliter la navigation de l’internaute sur le Site. <br> L’internaute consent à l’utilisation de ces cookies en cliquant sur le bouton « OK » situé sur le bandeau apparaissant sur la page d’accueil du Site. <br> L’internaute peut contrôler ses cookies via le site <a href=\"http://www.youronlinechoices.com/fr/controler-ses-cookies/\">http://www.youronlinechoices.com/fr/controler-ses-cookies/</a> ou désactiver l’utilisation de cookies en sélectionnant les paramètres appropriés de son navigateur : <h3>Pour Mozilla Firefox :</h3> <ol> <li>Choisissez le menu « outil » puis « options »,</li> <li>Cliquez sur l’icône « vie privée »,</li> <li>Repérez le menu « cookie » et sélectionnez les options qui vous conviennent.</li> </ol> <h3>Pour Microsoft Internet Explorer :</h3> <ol> <li>Choisissez le menu « outils » (ou « tools »), puis « options internet » (ou « internet options »),</li> <li>Cliquez sur l’onglet « confidentialité » (ou « confidentiality »),</li> <li>Sélectionnez le niveau souhaité à l’aide du curseur.</li> </ol> <h3>Pour Google Chrome :</h3> <ol> <li>Choisissez le menu « historique » puis « préférences » puis « vie privée »,</li> <li>Choisissez le menu « outils » et sélectionnez « historique ».</li> </ol> <h3>Pour Safari :</h3> <ol> <li>Choisissez le menu « réglages généraux de Safari », puis « sécurité »,</li> <li>Sélectionnez « refuser les cookies déposés ».</li> </ol> <h3>Pour Opera :</h3> <ol> <li>Choisissez le menu « préférences », puis « avancé » puis « cookies »</li> <li>Sélectionnez « ne jamais accepter les cookies »</li> </ol>",
+    "p4": "<h2>Responsabilité</h2> L’internaute est seul responsable de l’utilisation qu’il fait du contenu du Site. Sauf faute grave exclusive de la société DPM TECHNOLOGIES, sa responsabilité ne peut être engagée pour des dommages directs liés à l’utilisation des informations produites sur le Site. La responsabilité de la société DPM TECHNOLOGIES, si celle-ci était reconnue, ne couvre pas le dédommagement au titre des dommages indirects.  <h3>Fonctionnement du Site</h3> La société DPM TECHNOLOGIES décline toute responsabilité quant aux éventuels dysfonctionnements pouvant survenir sur le Site et entraîner une perte de données ou une indisponibilité de l’accès aux informations produites sur celui-ci.  <h3>Contenu du Site</h3> Les éléments présentés sur le Site sont susceptibles de modification, sans préavis, et sont mis à la disposition des internautes, sans aucune garantie d’aucune sorte, expresse ou tacite.<br>  La société DPM TECHNOLOGIES ne peut garantir l’exhaustivité et la véracité des informations présentes sur le Site. De la même manière, elle ne peut garantir l’absence de modification par un tiers (intrusion, virus).  <h3>Présence de liens hypertextes</h3> La société DPM TECHNOLOGIES n’est en aucun cas responsable du contenu ainsi que des produits ou services proposés sur les sites internet auxquels le Site se trouverait lié par des liens hypertextes ou tout autre type de lien. La présence de liens hypertextes sur le Site, quelle que soit l’existence préalable ou non de l’accord de la société DPM TECHNOLOGIES, ne crée pas une solidarité de responsabilité entre celle-ci et les propriétaires des autres sites, quant au contenu des sites sur lesquels l’internaute est redirigé.  <h2>Droit applicable et compétence judiciaire</h2> L’ensemble des informations diffusées sur le Site et l’utilisation qui en est faite sont soumis exclusivement au droit français. Seuls les tribunaux relevant du ressort de la Cour d’appel du siège social de la société DPM TECHNOLOGIES sont compétents pour connaître des éventuels litiges liés à l’utilisation du Site.",
+    "p5": "",
+    "footer": "Copyright (c) 2020 - Fmo"
+  },
+  "footer": {
+    "message": "Copyright (c) 2020 - Fmo"
+  },
+  "users": {
+    "ok_message": "Liste des utilisateurs reçue",
+    "title": "Utilisateurs connus",
+    "header": "-/-",
+    "footer": "(c) 2020",
+    "d_login": "Cliquer sur ce bouton si vous avez déjà un compte et que vous souhaitez vous connecter",
+    "ok_login": "Connexion réussie.. Bienvenue à la maison -)",
+    "ko_login": "Le nom d'utilisateur et/ou le mot de passe est incorrect.",
+    "d_register": "Cliquer sur ce bouton si vous n'avez pas encore un compte utilisateur et que vous souhaitez demander sa création",
+    "ok_register": "Demande d'inscription enregistrée. Vous pouvez maintenant vous connecter en utilisant votre adresse e-mail et le mot de passe que vous avez reçu par mail.",
+    "ko_register": "Inscription échouée. Un utilisateur est probablement déjà enregistré avec cet email.",
+    "d_lost_password": "Cliquer sur ce bouton si vous avez déjà un compte utilisateur mais que vous ne vous souvenez plus de votre mot de passe. Nous vous enverrons un e-mail avec les informations pour réactiver votre compte utilisateur.",
+    "d_lost_password_username": "Vous devez renseigner votre adresse mail comme nom d'utilisateur pour faire cette demande.",
+    "ok_lost_password": "Demande réalisée. Voue recevrez les informations de réactivation de votre compte utilisateur par mail.",
+    "ko_lost_password": "Demande échouée.",
+    "unnamed": "Utilisateur sans nom",
+    "unconnected": "Pas d'utilisateur connecté",
+    "roles": {
+      "tenant": "Locataire"
+    },
+    "ok_language": "Changement de langue {name}"
+  },
+  "home": {
+    "title": "Page d'accueil",
+    "hello": "Bienvenue {user}"
+  },
+  "alert": {
+    "title": "Signaler un problème",
+    "ok_message": "Demande d'intervention envoyée.",
+    "ko_message": "Problème lors de la demande d'intervention."
+  },
+  "login": {
+    "title": "Connexion"
+  },
+  "register": {
+    "title": "Inscription"
+  },
+  "lost_password": {
+    "title": "Mot de passe oublié"
+  },
+  "actions": {
+    "t_loading": "Merci de patienter ...",
+    "b_alert": "Envoyer",
+    "b_legals": "Mentions légales",
+    "b_login": "Connexion",
+    "b_logout": "Déconnexion",
+    "b_register": "Inscription",
+    "b_reset": "Réinitialiser",
+    "b_cancel": "Annuler",
+    "b_remove": "Supprimer",
+    "b_browse": "Choisir",
+    "b_lost_password": "Mot de passe oublié"
+  },
+
+  "fields": {
+    "f_username": "Nom d'utilisateur",
+    "d_username": "Le nom d'utilisateur est votre adresse mail",
+    "p_username": "Votre adresse mail",
+    "f_password": "Mot de passe",
+    "d_password": "Le mot de passe est obligatoire",
+    "p_password": "",
+    "f_first_name": "Prénom",
+    "d_first_name": "",
+    "p_first_name": "Votre prénom",
+    "f_last_name": "Nom",
+    "d_last_name": "",
+    "p_last_name": "Votre nom",
+    "f_email": "Adresse mail",
+    "d_email": "Nous ne partagerons jamais votre adresse avec qui que ce soit.",
+    "p_email": "Votre adresse mail",
+    "f_equipment": "Equipement",
+    "d_equipment": "Choisir un équipement dans la liste",
+    "p_equipment": "",
+    "f_comments": "Commentaires",
+    "d_comments": "Expliquer le problème en quelques mots",
+    "p_comments": "",
+    "f_date": "Rendez-vous souhaité",
+    "d_date": "Sélectionner la demi-journée que vous préférez pour l'intervention",
+    "p_date": "",
+    "f_picture": "Image",
+    "d_picture": "Choisir une image pour illustrer le problème",
+    "p_picture": ""
+  },
+
+  "activities": {
+    "ok_message": "Liste des activités",
+    "no_items": "Pas d'activités disponibles",
+    "fields": {
+      "id": "ID",
+      "name": "Activité",
+      "status": "Status",
+      "url": " ",
+      "details": " "
+    }
+  },
+
+  "phes": {
+    "ok_message": "Liste des événements",
+    "no_items": "Pas d'événements disponibles",
+    "fields": {
+      "id": "ID",
+      "status": "Status",
+      "title": "Evénement",
+      "type": " ",
+      "description": "Description",
+      "dateEvent": "Date",
+      "version": "Version",
+      "needAcknowledge": "Acq?"
+    }
+  }
+}

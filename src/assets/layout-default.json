@@ -1,0 +1,146 @@
+{
+  "id": "default",
+  "type": "role",
+  "rows": [
+    {
+      "title": "BaseTile avec un icône",
+      "columns": [
+        { "widget": "Mood",
+          "data": {"icon": "align-left", "iconPosition": "left" }},
+        { "widget": "Mood",
+          "data": {"icon": "align-center" }},
+        { "widget": "Mood",
+          "data": {"icon": "align-right", "iconPosition": "right" }}
+      ]
+    },
+    {
+      "title": "Bienvenue...",
+      "columns": [
+        {
+          "span": "col-xs-12", "widget": "PHES",
+          "data": {
+            "title": "Mes PHEs",
+            "tableCaption": "Mes PHEs"
+          }
+        }
+      ]
+    },
+    {
+      "columns": [
+        {
+          "span": "col-xs-12", "widget": "Activities",
+          "data": {
+            "title": "Mes activités",
+            "tableCaption": "Mes activités"
+          }
+        }
+      ]
+    },
+    {
+      "columns": [
+        { "widget": "BaseTile",
+          "data": {
+            "header": "Tile header",
+            "footer": "Tile footer",
+            "title": "My widget title",
+            "subTitle": "and sub-title :-)",
+            "icon": "spinner",
+            "iconSize": "4x",
+            "iconPosition": "left",
+            "iconText": "Hi! I'm here!",
+            "text": "This is the tile message"
+          }
+        },
+        { "widget": "BaseTile",
+          "data": {
+            "title": "My widget title",
+            "subTitle": "and sub-title :-)",
+            "icon": "spinner",
+            "iconSize": "4x",
+            "iconText": "Hi! I'm here!",
+            "text": "This is the tile message"
+          }
+        },
+        { "widget": "BaseTile",
+          "data": {
+            "icon": "spinner",
+            "iconSize": "4x",
+            "iconPosition": "right",
+            "iconText": "Hi! I'm here!",
+            "text": "This is the tile message"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Avec un titre de ligne dans le dashboard",
+      "columns": [
+        { "widget": "BaseTile",
+          "data": {
+            "icon": "spinner",
+            "text": "This is the tile message"
+          }
+        }
+      ]
+    },
+    {
+      "title": "BaseTile sans data...",
+      "columns": [
+        { "widget": "BaseTile",
+          "data": {
+            "iconPosition": "left"
+          }
+        },
+        { "widget": "BaseTile" },
+        { "widget": "BaseTile",
+          "data": {
+            "iconPosition": "right"
+          }
+        }
+      ]
+    },
+    {
+      "title": "BaseTile avec un icône",
+      "columns": [
+        { "widget": "BaseTile",
+          "data": {"icon": "align-left", "iconPosition": "left" }},
+        { "widget": "BaseTile",
+          "data": {"icon": "align-center" }},
+        { "widget": "BaseTile",
+          "data": {"icon": "align-right", "iconPosition": "right" }}
+      ]
+    },
+    {
+      "title": "Error in the line configuration",
+      "columns": [
+        { }
+      ]
+    },
+    {
+      "title": "BaseTile avec une URL pour navigation",
+      "columns": [
+        { "widget": "BaseTile",
+          "data": {
+            "icon": "align-left", "iconPosition": "left", "iconText": "Google FR",
+            "text": "This is the tile message", "url": "http://www.google.fr" }},
+        { "widget": "BaseTile",
+          "data": {
+            "icon": "align-left", "iconPosition": "left", "iconText": "Google FR",
+            "url": "http://www.google.fr",
+            "showDownloadMessage": true }},
+        { "widget": "BaseTile",
+          "data": {
+            "icon": "align-center", "iconText": "Google FR - target _blank",
+            "text": "This is the tile message", "url": "http://www.google.fr",
+            "urlTarget": "_self" }},
+        { "widget": "BaseTile",
+          "data": {
+            "icon": "align-right", "iconPosition": "right",
+            "text": "This is the tile message",
+            "url": "http://www.google.fr",
+            "showDownloadMessage": true,
+            "downloadMessage": "Message de téléchargement personnalisé -)" }}
+      ]
+    }
+  ]
+}

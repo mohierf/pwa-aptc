@@ -1,28 +1,52 @@
+/*
+ * Define the application routes:
+ * - main routes
+ * - login and register pages
+ *
+ * Check if user authentication is required for a route
+ */
+
 import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Router from "vue-router";
 
-Vue.use(VueRouter);
+// Import the routes pages
+import HomePage from "../views/HomePage";
+import LoginPage from "../views/LoginPage";
+// import RegisterPage from "../views/RegisterPage";
+// import LostPasswordPage from "../views/LostPasswordPage";
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
-];
+// Import data from the store
+import { store } from "../store";
 
-const router = new VueRouter({
-  routes
+Vue.use(Router);
+
+export const router = new Router({
+  mode: "history",
+  routes: [
+    { path: "/", component: HomePage },
+    { path: "/login", component: LoginPage },
+    // { path: "/register", component: RegisterPage },
+    // { path: "/lost_password", component: LostPasswordPage },
+
+    // otherwise redirect to home
+    { path: "*", redirect: "/" }
+  ]
 });
 
-export default router;
+/*
+ * Before each navigation, check if the user is logged in
+ */
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  // console.warn("beforeEach", to, from, next);
+
+  const publicPages = ["/login", "/register", "/me", "/lost_password"];
+  const authRequired = !publicPages.includes(to.path);
+  const isLoggedIn = store.getters["user/isLoggedIn"];
+
+  if (authRequired && !isLoggedIn) {
+    return next("/login");
+  }
+
+  next();
+});
