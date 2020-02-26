@@ -1,4 +1,5 @@
 import { userService } from "../services";
+// import { machineService } from "../services";
 import { jwtParse } from "../_helpers";
 import { router } from "../router";
 import { readFromStorage } from "../_helpers/local-storage";
@@ -54,6 +55,7 @@ const actions = {
         );
       },
       error => {
+        console.log("Logout", error);
         commit("loginFailure", error);
         dispatch("toasts/loginAlert", error, { root: true });
         dispatch("logout", error);

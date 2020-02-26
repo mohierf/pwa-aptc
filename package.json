@@ -14,6 +14,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
+    "crypto-js": "^4.0.0",
     "leaflet": "^1.6.0",
     "moment-timezone": "^0.5.27",
     "register-service-worker": "^1.6.2",
