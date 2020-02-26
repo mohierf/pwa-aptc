@@ -2,6 +2,7 @@ import { userService } from "../services";
 import { jwtParse } from "../_helpers";
 import { router } from "../router";
 import { readFromStorage } from "../_helpers/local-storage";
+// import moment from "moment";
 
 /*
  * We could store the user access token/refresh token in vuex store,
@@ -72,21 +73,26 @@ const actions = {
 
     commit("logout", message);
   },
-  refreshTokens({ state: _state, commit, dispatch }) {
+  refreshTokens({ state: _state, commit, dispatch }, when) {
     // Get next expiry date for the access token
     const now = Date.now() / 1000;
     const parsed = jwtParse(_state.access_token);
-    // [
-    //   "ROLE_USER",
-    //   "ROLE_PATIENT"
-    // ]
-    console.log("Parsed token:", parsed);
+    if (!parsed) {
+      // No token stored locally
+      return;
+    }
 
-    // Three minutes before the real expiry. Why 3? Why not -)
-    let timeUntilRefresh = parseInt(parsed.exp) - now;
-    timeUntilRefresh -= 3 * 60;
-    // timeUntilRefresh = timeUntilRefresh;
-    console.log("Refresh time...", timeUntilRefresh);
+    // Machine API test
+    // machineService.get('/visio_rooms');
+
+    if (when === undefined) {
+      // No refresh timer specified, then compute the next refresh
+      // when is 0 on page refresh to force a refresh token check
+      // Three minutes before the real expiry. Why 3? Why not -)
+      let timeUntilRefresh = parseInt(parsed.exp) - now;
+      timeUntilRefresh -= 3 * 60;
+      when = timeUntilRefresh * 1000;
+    }
 
     // Start the refresh token background task
     const refreshTask = setTimeout(() => {
@@ -101,7 +107,7 @@ const actions = {
           dispatch("logout", "Failed refreshing tokens: " + error);
         }
       );
-    }, timeUntilRefresh * 1000);
+    }, when);
     commit("refreshTask", refreshTask);
   },
   register({ dispatch, commit }, gotUser) {
@@ -218,9 +224,24 @@ const mutations = {
     _state.access_token = readFromStorage("access_token") || "";
     _state.refresh_token = readFromStorage("refresh_token") || "";
 
+    // // JWT information:
+    // // roles, username, lastlogout
+    // // The role information may be used to check that we got
+    // // the correct layout for the application. As of now, only
+    // // ROLE_USER is managed!
+    //
     // // Next expiry is
     // const parsed = jwtParse(_state.access_token);
     // console.log("refreshSuccess, next expiry: ", parsed.exp - parsed.iat);
+    //
+    // // iat and exp are UTC timestamps - no need to specify a TZ
+    // let iat = moment(parsed.iat * 1000);
+    // // default format is ISO8601
+    // console.log(iat.format());
+    //
+    // let expiry = moment(parsed.exp * 1000);
+    // // default format is ISO8601
+    // console.log(expiry.format());
   },
   refreshTask(_state, task) {
     _state.refresh_task = task;

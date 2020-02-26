@@ -4,7 +4,7 @@ const state = {
   // The maximum messages count stored in the queue
   max: 10,
   // A message specific for the login/register pages
-  loginMessage: null
+  loginMessage: ""
 };
 
 const actions = {
@@ -28,7 +28,7 @@ const actions = {
 const getters = {
   lastLoginMessage: _state => {
     return _state.loginMessage &&
-      _state.loginMessage !== "null" &&
+      _state.loginMessage !== "" &&
       _state.loginMessage !== "undefined"
       ? _state.loginMessage
       : "";
@@ -83,7 +83,7 @@ const mutations = {
   },
   // eslint-disable-next-line no-unused-vars
   loginClear(_state, message) {
-    _state.loginMessage = null;
+    _state.loginMessage = "";
   }
 };
 

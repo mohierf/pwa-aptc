@@ -35,6 +35,10 @@ export default {
       // // Force the view update - not necessary, uncomment to reactivate
       this.$forceUpdate();
     });
+
+    // Set a background refresh task to refresh the tokens
+    // dispatch("user/refreshTokens");
+    this.$store.dispatch("user/refreshTokens", 0);
   },
   computed: {
     ...mapState({

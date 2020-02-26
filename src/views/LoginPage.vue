@@ -91,7 +91,7 @@
               </b-form-group>
             </ValidationProvider>
 
-            <b-alert show="true" variant="danger">
+            <b-alert :show="loginFailed" variant="danger">
               {{ toasts.loginMessage }}
             </b-alert>
 
@@ -159,6 +159,9 @@ export default {
     },
     appApiUrl: function() {
       return process.env.VUE_APP_API_ROOT || "App API URL not set";
+    },
+    loginFailed: function() {
+      return this.lastLoginMessage() !== "";
     }
   },
   created() {

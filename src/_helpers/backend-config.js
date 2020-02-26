@@ -23,7 +23,7 @@ export const backendConfig = {
   activitiesEndpoint: "/free_activities",
 
   // Allowed users roles
-  allowedRoles: ["patient"]
+  allowedRoles: ["ROLE_USER"]
 };
 
 if (backendConfig.apiUrl === undefined) {

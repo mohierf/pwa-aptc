@@ -3,17 +3,22 @@
  * -------------------------
  * Returns:
  * {
- *   sub: 265534,
- *   token_type: "refresh",
- *   exp: 1581790573,
- *   iat: 1579198573,
- *   jti: "22a43b1b0b694ceaa425f7b26c856960"
+ *   roles: [ "ROLE_USER" ],
+ *   username: "frederic.mohier@gmail.com",
+ *   id: "6488adb6-6ac4-4c30-9530-d9cd343bcb2e",
+ *   lastlogout: "2020-02-22T17:43:56+00:00",
+ *   JWTIdentifier: "8a71989adf1f1aad459d52ee09cd6dac1aa1ebf6804643cdbb3bfb73e9dd0caf",
+ *   iat: 1582693973,
+ *   exp: 1582697573
  * }
  *
- * exp - iat is the number of seconds before token expiry.
+ * (exp - iat) is the number of seconds before token expiry.
  */
 export function jwtParse(token) {
-  let base64Url = token.split(".")[1];
+  const base64Url = token.split(".")[1] || null;
+  if (!base64Url) {
+    return null;
+  }
   let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   let jsonPayload = decodeURIComponent(
     atob(base64)
