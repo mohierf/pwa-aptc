@@ -12,12 +12,12 @@
           :pull="data.iconPosition"
         ></font-awesome-icon>
         <font-awesome-icon
-          icon="angry"
+          icon="coffee"
           :size="data.iconSize || '3x'"
           :pull="data.iconPosition"
         ></font-awesome-icon>
         <font-awesome-icon
-          icon="angry"
+          icon="trash"
           :size="data.iconSize || '3x'"
           :pull="data.iconPosition"
         ></font-awesome-icon>

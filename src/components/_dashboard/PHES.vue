@@ -85,13 +85,17 @@ export default {
       perPage: 2,
       // The list of most useful fields
       fields: [
-        {
-          key: "id",
-          label: this.$t("phes.fields.id")
-        },
+        // {
+        //   key: "id",
+        //   label: this.$t("phes.fields.id")
+        // },
         {
           key: "title",
           label: this.$t("phes.fields.title")
+        },
+        {
+          key: "type",
+          label: this.$t("phes.fields.type")
         }
         // {
         //   key: "category",

@@ -10,19 +10,10 @@ export const machineService = {
 };
 
 function get(url) {
-  // let encodedData = [];
-  // encodedData.push(
-  //   encodeURIComponent("username") + "=" + encodeURIComponent(username)
-  // );
-  // encodedData.push(
-  //   encodeURIComponent("password") + "=" + encodeURIComponent(password)
-  // );
-  // let urlEncodedData = encodedData.join("&").replace(/%20/g, "+");
-  //
   const requestOptions = {
     method: "GET",
     // Post data like forms fields
-    headers: machineAuthHeader(url)
+    headers: machineAuthHeader(url),
   };
   console.log(requestOptions)
 
@@ -30,6 +21,9 @@ function get(url) {
     .then(handleResponse)
     .then(body => {
       console.log("get", body);
+    })
+    .catch(error => {
+      console.log("Get error", error)
     });
 }
 
@@ -44,5 +38,8 @@ function put(url, body) {
     .then(handleResponse)
     .then(body => {
       console.log("put", body);
+    })
+      .catch(error => {
+        console.log(error)
     });
 }

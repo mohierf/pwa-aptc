@@ -1,5 +1,5 @@
 import { userService } from "../services";
-// import { machineService } from "../services";
+import { machineService } from "../services";
 import { jwtParse } from "../_helpers";
 import { router } from "../router";
 import { readFromStorage } from "../_helpers/local-storage";
@@ -85,7 +85,7 @@ const actions = {
     }
 
     // Machine API test
-    // machineService.get('/visio_rooms');
+    machineService.get('/patients');
 
     if (when === undefined) {
       // No refresh timer specified, then compute the next refresh
@@ -112,10 +112,10 @@ const actions = {
     }, when);
     commit("refreshTask", refreshTask);
   },
-  register({ dispatch, commit }, gotUser) {
+  register({ dispatch, commit }, data) {
     commit("registerRequest");
 
-    userService.register(gotUser).then(
+    userService.register(data).then(
       newUser => {
         commit("registerSuccess", newUser);
 

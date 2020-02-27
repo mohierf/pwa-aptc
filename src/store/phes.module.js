@@ -33,17 +33,18 @@ const mutations = {
   getAllRequest(_state) {
     _state.status = "loading";
   },
-  getAllSuccess(_state, gotPhes) {
+  getAllSuccess(_state, data) {
+    console.log(data);
     _state.status = "success";
 
     // let items = [];
-    gotPhes["hydra:member"].forEach(phe => {
+    data["hydra:member"].forEach(phe => {
       // Remove unused information
       delete phe["patient"];
       delete phe["author"];
     });
 
-    _state.items = gotPhes["hydra:member"];
+    _state.items = data["hydra:member"];
   },
   getAllFailure(_state, error) {
     _state.status = "error";
