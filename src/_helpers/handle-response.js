@@ -15,7 +15,8 @@ export function handleResponse(response) {
     }
 
     if (!response.ok) {
-      let error = (data && data.detail) || response.statusText;
+      let error =
+        (data && data.detail) || (data && data.message) || response.statusText;
       if (typeof error !== "string") {
         error = JSON.stringify(error);
       }

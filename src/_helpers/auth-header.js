@@ -24,12 +24,6 @@ export function authHeader(headers = {}) {
 }
 
 export function machineAuthHeader(url) {
-  const h  = {
-    "Content-Type": "application/ld+json",
-    "x-auth-token": createSignature(url),
-    "x-user-agent": "Firefox-Fred"
-  };
-  console.log(h);
   return {
     "Content-Type": "application/ld+json",
     "x-auth-token": createSignature(url)
@@ -45,6 +39,5 @@ function createSignature(url) {
   );
 
   let buff = new Buffer(userApi + ":" + signature);
-  const finalSignature = buff.toString("base64");
-  return finalSignature;
+  return buff.toString("base64");
 }

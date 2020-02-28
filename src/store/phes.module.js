@@ -34,7 +34,6 @@ const mutations = {
     _state.status = "loading";
   },
   getAllSuccess(_state, data) {
-    console.log(data);
     _state.status = "success";
 
     // let items = [];

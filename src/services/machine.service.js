@@ -13,9 +13,9 @@ function get(url) {
   const requestOptions = {
     method: "GET",
     // Post data like forms fields
-    headers: machineAuthHeader(url),
+    headers: machineAuthHeader(url)
   };
-  console.log(requestOptions)
+  console.log(requestOptions);
 
   return fetch(`${backendConfig.apiUrl}${url}`, requestOptions)
     .then(handleResponse)
@@ -23,15 +23,15 @@ function get(url) {
       console.log("get", body);
     })
     .catch(error => {
-      console.log("Get error", error)
+      console.log("Get error:", error);
     });
 }
 
-function put(url, body) {
+function put(url, data) {
   const requestOptions = {
     method: "PUT",
     headers: machineAuthHeader(url),
-    body: body
+    body: data
   };
 
   return fetch(`${backendConfig.apiUrl}${url}`, requestOptions)
@@ -39,7 +39,7 @@ function put(url, body) {
     .then(body => {
       console.log("put", body);
     })
-      .catch(error => {
-        console.log(error)
+    .catch(error => {
+      console.log(error);
     });
 }
