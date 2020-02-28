@@ -1,0 +1,5 @@
+#!/bin/sh
+
+envsubst "\${API_ENDPOINT} \${WS_ENDPOINT} \${BRANDING} \${TITLE}" < /etc/nginx/conf.d/app-web.conf.template > /etc/nginx/conf.d/app-web.conf
+
+exec "$@"

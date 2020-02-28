@@ -1,0 +1,27 @@
+server {
+    listen       80 default_server;
+    root         /srv/app-web/build;
+
+    # Any route containing a file extension
+
+    location ~ ^.+\..+$ {
+        sub_filter '__API_ENDPOINT__' '${API_ENDPOINT}';
+        sub_filter '__WS_ENDPOINT__' '${WS_ENDPOINT}';
+        sub_filter '__BRANDING__' '${BRANDING}';
+        sub_filter '__TITLE__' '${TITLE}';
+        sub_filter_once off;
+        sub_filter_types 'application/javascript';
+        try_files $uri =404;
+    }
+
+    # Any route that doesn't have a file extension
+
+    location / {
+        sub_filter '__API_ENDPOINT__' '${API_ENDPOINT}';
+        sub_filter '__WS_ENDPOINT__' '${WS_ENDPOINT}';
+        sub_filter '__BRANDING__' '${BRANDING}';
+        sub_filter '__TITLE__' '${TITLE}';
+        sub_filter_once off;
+        try_files $uri /index.html;
+    }
+}

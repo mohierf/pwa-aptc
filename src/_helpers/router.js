@@ -16,7 +16,7 @@ import LoginPage from "../views/LoginPage";
 // import LostPasswordPage from "../views/LostPasswordPage";
 
 // Import data from the store
-import { store } from "../store";
+import { store } from "../_store";
 
 Vue.use(Router);
 

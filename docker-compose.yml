@@ -1,13 +1,38 @@
-version: '3.7'
+version: '3.4'
 
 services:
-  aptc:
-    container_name: front
+
+  nginx:
+#    container_name: front
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./docker/Dockerfile
+      target: nginx
+    environment:
+      - 'API_ENDPOINT=${API_ENDPOINT:-http://api-nginx}'
+      - 'WS_ENDPOINT=${WS_ENDPOINT:-http://api-sigsrv}'
+      - 'BRANDING=${BRANDING:-default}'
+      - 'TITLE=${TITLE:-apTeleCare}'
+#    image: ./docker/nginx:${BRANCH:-develop}
+
+  node:
+#    container_name: front
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: node
+    environment:
+      # Set the user id for node
+      - 'NODE_USER=${_UID}'
+      #      - 'NODE_USER=${NODE_USER:-${_UID}}'
+#      - 'API_ENDPOINT=${API_ENDPOINT:-http://api-nginx}'
+#      - 'WS_ENDPOINT=${WS_ENDPOINT:-http://api-sigsrv}'
+#      - 'BROWSER_ENTRYPOINT=${API_ENTRYPOINT:-http://nginx}'
+#      - 'SELENIUM_CHROME_HOST=${SELENIUM_CHROME_HOST:-selenium-chrome}'
+#      - 'BRANDING=${BRANDING:-default}'
+#      - 'TITLE=${TITLE:-apTeleCare}'
+#    image: ./docker/node:${BRANCH:-develop}
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - ./reports:/srv/app-web/reports
     ports:
       - '8081:8080'

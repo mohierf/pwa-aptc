@@ -7,8 +7,16 @@
 import { readFromStorage } from "./local-storage";
 const CryptoJS = require("crypto-js");
 
-const userApi = "0123456789";
-const tokenApi = "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqaco.6eRFZ.EH6NIO";
+// PreProd
+const userApi = "fmohier";
+// const tokenApi = "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqaco.6eRFZ.EH6NIO";
+const tokenApi = "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqAco.6eRFZ.EH6NIO";
+
+// Local
+// const userApi = "fmohier";
+// const tokenApi = "$2y$15$e/U8q6v08AKE.2nR7QHSH.qe7KoIi7nsZ7bYs6eB2rLVFVwcMnfZG";
+// const userApi = "api_create_data";
+// const tokenApi = "$2y$15$/ncJgS/t1JHjLkdFTBPDmeegkZrDTcxPnlLgdSWcivTWJ87lpbM.S";
 
 export function authHeader(headers = {}) {
   // Set authorization header with jwt access token

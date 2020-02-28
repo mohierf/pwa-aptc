@@ -1,5 +1,5 @@
-import { activityService } from "../services";
-import { router } from "../router";
+import { activityService } from "../_services";
+import { router } from "../_helpers/router";
 
 const state = {
   status: "",

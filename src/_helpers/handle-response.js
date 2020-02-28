@@ -2,7 +2,7 @@
  * Standard handle of the API response
  */
 import { backendConfig } from "../_helpers";
-import { store } from "../store";
+import { store } from "../_store";
 
 export function handleResponse(response) {
   return response.text().then(text => {
@@ -15,13 +15,14 @@ export function handleResponse(response) {
     }
 
     if (!response.ok) {
+      // todo: Check what is the fail response pattern
       let error =
         (data && data.detail) || (data && data.message) || response.statusText;
       if (typeof error !== "string") {
         error = JSON.stringify(error);
       }
 
-      if (response.status === 401) {
+      if ([401, 403].indexOf(response.status) !== -1) {
         // Do not care if we are logging out, else we will indefinitely log out!
         if (
           response.url !==

@@ -1,7 +1,7 @@
-import { userService } from "../services";
-import { machineService } from "../services";
+import { userService } from "../_services";
+import { machineService } from "../_services";
 import { jwtParse } from "../_helpers";
-import { router } from "../router";
+import { router } from "../_helpers/router";
 import { readFromStorage } from "../_helpers/local-storage";
 // import moment from "moment";
 

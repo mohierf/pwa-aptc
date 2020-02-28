@@ -4,7 +4,8 @@
 
 import {
   backendConfig,
-  authHeader,
+  requestOptions,
+  makeHeaders,
   handleResponse,
   readFromStorage
 } from "../_helpers";
@@ -13,8 +14,6 @@ import { writeToStorage, removeFromStorage } from "../_helpers/local-storage";
 export const userService = {
   login,
   logout,
-  register,
-  recover,
   getUserProfile,
   refreshTokens
 };
@@ -29,19 +28,17 @@ function login(username, password) {
   );
   let urlEncodedData = encodedData.join("&").replace(/%20/g, "+");
 
-  const requestOptions = {
-    method: "POST",
-    // Post data like forms fields
-    headers: authHeader({
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }),
-    // Use form encoded data
-    body: urlEncodedData
-  };
-
   return fetch(
     `${backendConfig.apiUrl}${backendConfig.loginEndpoint}`,
-    requestOptions
+      {
+        method: "POST",
+        // Post data like forms fields
+        headers: authHeader({
+          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        }),
+        // Use form encoded data
+        body: urlEncodedData
+      }
   )
     .then(handleResponse)
     .then(tokens => {
@@ -60,15 +57,9 @@ function login(username, password) {
 }
 
 function logout() {
-  console.log("logout");
-  const requestOptions = {
-    method: "POST",
-    headers: authHeader()
-  };
-
   return fetch(
     `${backendConfig.apiUrl}${backendConfig.logoutEndpoint}`,
-    requestOptions
+    requestOptions.post()
   )
     .then(handleResponse)
     .then(() => {
@@ -76,46 +67,12 @@ function logout() {
       removeFromStorage("access_token");
       removeFromStorage("refresh_token");
     });
-  // // remove user from local storage to log user out
-  // removeFromStorage("access_token");
-  // removeFromStorage("refresh_token");
-}
-
-function register(user) {
-  const requestOptions = {
-    method: "POST",
-    headers: authHeader(),
-    body: JSON.stringify(user)
-  };
-
-  return fetch(
-    `${backendConfig.apiUrl}${backendConfig.registerEndpoint}`,
-    requestOptions
-  ).then(handleResponse);
-}
-
-function recover(username) {
-  const requestOptions = {
-    method: "POST",
-    headers: authHeader(),
-    body: username
-  };
-
-  return fetch(
-    `${backendConfig.apiUrl}${backendConfig.recoverEndpoint}`,
-    requestOptions
-  ).then(handleResponse);
 }
 
 function getUserProfile() {
-  const requestOptions = {
-    method: "GET",
-    headers: authHeader()
-  };
-
   return fetch(
     `${backendConfig.apiUrl}${backendConfig.profileEndpoint}`,
-    requestOptions
+    requestOptions.get()
   )
     .then(handleResponse)
     .then(profile => {

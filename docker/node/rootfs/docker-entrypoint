@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Install dependencies
+gosu "${NODE_USER}" yarn install --non-interactive --no-progress
+
+exec gosu "${NODE_USER}" "$@"

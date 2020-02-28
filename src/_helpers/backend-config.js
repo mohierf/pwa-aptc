@@ -1,6 +1,17 @@
 export const backendConfig = {
   apiUrl: process.env.VUE_APP_API_ROOT,
 
+  // -----
+  // Machine API
+  // -----
+  // PreProd
+  apiUser: "fmohier",
+  apiToken: "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqAco.6eRFZ.EH6NIO",
+
+  // Local - test fixtures
+  // apiUser: "api_create_data",
+  // apiToken: "$2y$15$/ncJgS/t1JHjLkdFTBPDmeegkZrDTcxPnlLgdSWcivTWJ87lpbM.S",
+
   // User service
   loginEndpoint: "/patient_login_check",
   refreshEndpoint: "/token/refresh",
@@ -15,6 +26,9 @@ export const backendConfig = {
 
   // API service
   apiInfoEndpoint: "/api/info",
+
+  // Patients list
+  patientsEndpoint: "/patients",
 
   // Patients health events service
   phesEndpoint: "/patient_health_events",
