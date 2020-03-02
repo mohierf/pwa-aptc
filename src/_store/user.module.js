@@ -1,6 +1,6 @@
 import { userService } from "../_services";
-import { machineService } from "../_services";
-import { jwtParse } from "../_helpers";
+// import { machineService } from "../_services";
+import { jwtParse, writeToStorage } from "../_helpers";
 import { router } from "../_helpers/router";
 import { readFromStorage } from "../_helpers/local-storage";
 // import moment from "moment";
@@ -55,7 +55,6 @@ const actions = {
         );
       },
       error => {
-        console.log("Logout", error);
         commit("loginFailure", error);
         dispatch("toasts/loginAlert", error, { root: true });
         dispatch("logout", error);
@@ -83,9 +82,6 @@ const actions = {
       // No token stored locally
       return;
     }
-
-    // Machine API test
-    machineService.get('/patients');
 
     if (when === undefined) {
       // No refresh timer specified, then compute the next refresh
@@ -136,22 +132,6 @@ const actions = {
       }
     );
   },
-  recoverPassword({ dispatch, commit }, { username }) {
-    commit("recoverRequest", { username });
-
-    userService.recover(username).then(
-      gotUser => {
-        commit("recoverSuccess", gotUser);
-
-        // Navigate to login page
-        router.push("/login");
-      },
-      error => {
-        commit("recoverFailure", error);
-        dispatch("toasts/error", error);
-      }
-    );
-  },
   setLocale({ dispatch, commit }, locale) {
     commit("setLocale", locale.code);
     dispatch(
@@ -197,18 +177,6 @@ const getters = {
 };
 
 const mutations = {
-  recoverRequest(_state, _user) {
-    _state.status = "recovering";
-    _state.user = _user;
-  },
-  recoverSuccess(_state, _user) {
-    _state.status = "recovering";
-    _state.user = _user;
-  },
-  recoverFailure(_state) {
-    _state.status = "error";
-    _state.user = null;
-  },
   loginRequest(_state, _user) {
     _state.status = "logging";
     _state.user = _user;
@@ -232,8 +200,14 @@ const mutations = {
     // // the correct layout for the application. As of now, only
     // // ROLE_USER is managed!
     //
+    const parsed = jwtParse(_state.access_token);
+    // I got my own UUID
+    console.log("uuid", parsed.id);
+    // Machine API test
+    // machineService.get("/patients/" + parsed.id);
+    writeToStorage("user_id", parsed.id);
+
     // // Next expiry is
-    // const parsed = jwtParse(_state.access_token);
     // console.log("refreshSuccess, next expiry: ", parsed.exp - parsed.iat);
     //
     // // iat and exp are UTC timestamps - no need to specify a TZ

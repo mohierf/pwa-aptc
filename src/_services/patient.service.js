@@ -1,35 +1,35 @@
 /*
- * Activities services
+ * Patients services
  */
 
 import { backendConfig } from "../_helpers";
 import { requestOptions, handleResponse } from "../_helpers";
+import { machineService } from "../_services";
 
 export const patientService = {
-  getAll, getById
+  getAll,
+  getById
 };
 
 function getAll() {
-  const requestOptions = {
-    method: "GET",
-    headers: authHeader()
-  };
+  if (backendConfig.apiUser) {
+    return machineService.get(`${backendConfig.patientsEndpoint}`);
+  }
 
   return fetch(
-      `${backendConfig.apiUrl}${backendConfig.patientsEndpoint}`,
-      requestOptions.get()
+    `${backendConfig.apiUrl}${backendConfig.patientsEndpoint}`,
+    requestOptions.get()
   ).then(handleResponse);
 }
 
-
-function getById(id) {
-  const requestOptions = {
-    method: "GET",
-    headers: authHeader()
-  };
+function getById(uuid) {
+  console.log(backendConfig.apiUser);
+  if (backendConfig.apiUser) {
+    return machineService.get(`${backendConfig.patientsEndpoint}/` + uuid);
+  }
 
   return fetch(
-      `${backendConfig.apiUrl}${backendConfig.patientsEndpoint}/${id}`,
-      requestOptions.get()
+    `${backendConfig.apiUrl}${backendConfig.patientsEndpoint}/${uuid}`,
+    requestOptions.get()
   ).then(handleResponse);
 }

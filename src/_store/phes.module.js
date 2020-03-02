@@ -22,7 +22,32 @@ const actions = {
         if (error && error !== "Unauthorized") {
           dispatch("toasts/error", error, { root: true });
         } else {
-          dispatch("account/userDenied", "phes", { root: true });
+          dispatch("user/userDenied", "phes", { root: true });
+        }
+      }
+    );
+  },
+  getById({ dispatch, commit, _getters }, uuid) {
+    if (_getters["itemById"](uuid)) {
+      console.log("Still loaded", uuid);
+      return;
+    }
+
+    commit("getOneRequest");
+
+    pheService.getById(uuid).then(
+      data => {
+        commit("getOneSuccess", data);
+        dispatch("toasts/success", router.app.$t("phes.ok_message"), {
+          root: true
+        });
+      },
+      error => {
+        commit("getOneFailure", error);
+        if (error && error !== "Unauthorized") {
+          dispatch("toasts/error", error, { root: true });
+        } else {
+          dispatch("user/userDenied", "phes", { root: true });
         }
       }
     );
@@ -36,7 +61,6 @@ const mutations = {
   getAllSuccess(_state, data) {
     _state.status = "success";
 
-    // let items = [];
     data["hydra:member"].forEach(phe => {
       // Remove unused information
       delete phe["patient"];
@@ -48,6 +72,33 @@ const mutations = {
   getAllFailure(_state, error) {
     _state.status = "error";
     _state.error = error;
+  },
+  getOneRequest(_state) {
+    _state.status = "loading";
+  },
+  getOneSuccess(_state, data) {
+    _state.status = "success";
+
+    console.log("getOne phe", data);
+  },
+  getOneFailure(_state, error) {
+    _state.status = "error";
+    _state.error = error;
+  }
+};
+
+const getters = {
+  isLoading: _state => _state.status === "loading",
+  isError: _state => _state.status === "loading",
+  getError: _state => _state.error,
+  isLoaded: _state => _state.status === "success",
+  itemsCount: _state => _state.items.length,
+  allItems: _state => _state.items,
+  itemById: _state => uuid => {
+    console.log("Find phes by Id:", uuid);
+    const found = _state.items.find(item => item.id === uuid);
+    console.log("Found: ", found.title);
+    return found;
   }
 };
 
@@ -55,5 +106,6 @@ export const phes = {
   namespaced: true,
   state,
   actions,
-  mutations
+  mutations,
+  getters
 };

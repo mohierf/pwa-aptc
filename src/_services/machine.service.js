@@ -2,7 +2,7 @@
  * Machine API - get and put
  */
 
-import { backendConfig, machineAuthHeader, handleResponse } from "../_helpers";
+import { backendConfig, requestOptions, handleResponse } from "../_helpers";
 
 export const machineService = {
   get,
@@ -10,36 +10,29 @@ export const machineService = {
 };
 
 function get(url) {
-  const requestOptions = {
-    method: "GET",
-    // Post data like forms fields
-    headers: machineAuthHeader(url)
-  };
-  console.log(requestOptions);
-
-  return fetch(`${backendConfig.apiUrl}${url}`, requestOptions)
+  return fetch(
+    `${backendConfig.apiUrl}${url}`,
+    requestOptions.get({}, true, url)
+  )
     .then(handleResponse)
     .then(body => {
-      console.log("get", body);
+      return body;
     })
     .catch(error => {
-      console.log("Get error:", error);
+      console.log("Machine Get error:", error);
     });
 }
 
 function put(url, data) {
-  const requestOptions = {
-    method: "PUT",
-    headers: machineAuthHeader(url),
-    body: data
-  };
-
-  return fetch(`${backendConfig.apiUrl}${url}`, requestOptions)
+  return fetch(
+    `${backendConfig.apiUrl}${url}`,
+    requestOptions.put(data, {}, true, url)
+  )
     .then(handleResponse)
     .then(body => {
-      console.log("put", body);
+      return body;
     })
     .catch(error => {
-      console.log(error);
+      console.log("Machine Put error:", error);
     });
 }

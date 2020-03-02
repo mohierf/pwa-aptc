@@ -22,7 +22,7 @@ export function handleResponse(response) {
         error = JSON.stringify(error);
       }
 
-      if ([401, 403].indexOf(response.status) !== -1) {
+      if (response.status === 401) {
         // Do not care if we are logging out, else we will indefinitely log out!
         if (
           response.url !==
@@ -34,6 +34,13 @@ export function handleResponse(response) {
         return data;
       }
 
+      if (response.status === 403) {
+        store.dispatch("user/userDenied", error, { root: true }).then(() => {
+          console.log("403!", error, response);
+        });
+      }
+
+      console.log("Promise.reject");
       return Promise.reject(error);
     }
 

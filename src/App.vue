@@ -37,7 +37,6 @@ export default {
     });
 
     // Set a background refresh task to refresh the tokens
-    // dispatch("user/refreshTokens");
     this.$store.dispatch("user/refreshTokens", 0);
   },
   computed: {

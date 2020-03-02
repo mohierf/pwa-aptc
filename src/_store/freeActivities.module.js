@@ -1,4 +1,4 @@
-import { activityService } from "../_services";
+import { freeActivityService } from "../_services";
 import { router } from "../_helpers/router";
 
 const state = {
@@ -12,7 +12,7 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    activityService.getAll().then(
+    freeActivityService.getAll().then(
       data => {
         commit("getAllSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {
@@ -25,26 +25,6 @@ const actions = {
           dispatch("toasts/error", error, { root: true });
         } else {
           dispatch("user/userDenied", "Activities", { root: true });
-        }
-      }
-    );
-  },
-  getById({ dispatch, commit }, uuid) {
-    commit("getOneRequest");
-
-    activityService.getById(uuid).then(
-      data => {
-        commit("getOneSuccess", data);
-        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
-          root: true
-        });
-      },
-      error => {
-        commit("getOneFailure", error);
-        if (error && error !== "Unauthorized") {
-          dispatch("toasts/error", error, { root: true });
-        } else {
-          dispatch("user/userDenied", "activities", { root: true });
         }
       }
     );
@@ -69,37 +49,14 @@ const mutations = {
       });
 
       _state.totalItems = data["hydra:totalItems"];
-      console.log("Activities - Total", _state.totalItems);
+      console.log("FreeActivities - Total", _state.totalItems);
       _state.countItems += data["hydra:member"].length;
-      console.log("Activities - Count", _state.countItems);
+      console.log("FreeActivities - Count", _state.countItems);
       // Update stored data
       _state.items = data["hydra:member"];
     }
-
-    _state.items.forEach(freeActivity => {
-      console.log(freeActivity);
-    });
   },
   getAllFailure(_state, error) {
-    _state.status = "error";
-    _state.error = error;
-  },
-  getOneRequest(_state) {
-    _state.status = "loading";
-  },
-  getOneSuccess(_state, data) {
-    _state.status = "success";
-
-    console.log("getOne activity", data);
-    // data["hydra:member"].forEach(phe => {
-    //   // Remove unused information
-    //   delete phe["patient"];
-    //   delete phe["author"];
-    // });
-
-    _state.items = data["hydra:member"];
-  },
-  getOneFailure(_state, error) {
     _state.status = "error";
     _state.error = error;
   }
@@ -114,7 +71,7 @@ const getters = {
   itemsCount: _state => _state.items.length
 };
 
-export const activities = {
+export const freeActivities = {
   namespaced: true,
   state,
   actions,

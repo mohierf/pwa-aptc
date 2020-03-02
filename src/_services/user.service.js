@@ -5,9 +5,10 @@
 import {
   backendConfig,
   requestOptions,
-  makeHeaders,
+  userHeaders,
   handleResponse,
-  readFromStorage
+  readFromStorage,
+  formEncode
 } from "../_helpers";
 import { writeToStorage, removeFromStorage } from "../_helpers/local-storage";
 
@@ -19,35 +20,16 @@ export const userService = {
 };
 
 function login(username, password) {
-  let encodedData = [];
-  encodedData.push(
-    encodeURIComponent("username") + "=" + encodeURIComponent(username)
-  );
-  encodedData.push(
-    encodeURIComponent("password") + "=" + encodeURIComponent(password)
-  );
-  let urlEncodedData = encodedData.join("&").replace(/%20/g, "+");
-
-  return fetch(
-    `${backendConfig.apiUrl}${backendConfig.loginEndpoint}`,
-      {
-        method: "POST",
-        // Post data like forms fields
-        headers: authHeader({
-          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        }),
-        // Use form encoded data
-        body: urlEncodedData
-      }
-  )
+  return fetch(`${backendConfig.apiUrl}${backendConfig.loginEndpoint}`, {
+    method: "POST",
+    // Use form encoded data
+    ...userHeaders({
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }),
+    body: formEncode({ username: username, password: password })
+  })
     .then(handleResponse)
     .then(tokens => {
-      // login successful if there's a jwt token in the response
-      // response contains:
-      // {
-      //   "token": "string",
-      //   "refresh_token": "string"
-      // }
       if (tokens.token && tokens.refresh_token) {
         // store the jwt tokens in the local storage to keep user logged in between page refreshes
         writeToStorage("access_token", tokens.token);
@@ -91,28 +73,14 @@ function getUserProfile() {
 
 function refreshTokens() {
   console.log("Refresh token...");
-  let encodedData = [];
-  encodedData.push(
-    encodeURIComponent("refresh_token") +
-      "=" +
-      encodeURIComponent(readFromStorage("refresh_token"))
-  );
-  let urlEncodedData = encodedData.join("&").replace(/%20/g, "+");
-
-  const requestOptions = {
+  return fetch(`${backendConfig.apiUrl}${backendConfig.refreshEndpoint}`, {
     method: "POST",
-    // Post data like forms fields
-    headers: authHeader({
+    // Use form encoded data
+    ...userHeaders({
       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
     }),
-    // Use form encoded data
-    body: urlEncodedData
-  };
-
-  return fetch(
-    `${backendConfig.apiUrl}${backendConfig.refreshEndpoint}`,
-    requestOptions
-  )
+    body: formEncode({ refresh_token: readFromStorage("refresh_token") })
+  })
     .then(handleResponse)
     .then(tokens => {
       // login successful if there's a jwt token in the response

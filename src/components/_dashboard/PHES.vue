@@ -6,15 +6,15 @@
 
     <template v-slot:body>
       <b-card-text>
-        <em v-if="phes.status === 'loading'">
+        <em v-if="isLoading">
           <font-awesome-icon icon="spinner" size="2x" spin></font-awesome-icon>
           &nbsp; {{ $t("actions.t_loading") }}
         </em>
-        <div v-else-if="phes.status === 'error'" class="m-3 bg-danger">
-          <h1>Could not get phes: {{ phes.error }}!</h1>
+        <div v-else-if="isError" class="m-3 bg-danger">
+          <h1>Could not get PHEs: {{ getError }}!</h1>
         </div>
-        <div v-else-if="phes.status === 'success' && phes.items">
-          <div v-if="phes.items.length > 0">
+        <div v-else-if="isLoaded">
+          <div v-if="itemsCount > 0">
             <b-table
               :id="'table-phes-' + _uid"
               :sticky-header="data.tableHeaderCss"
@@ -22,7 +22,7 @@
               caption-top
               :per-page="perPage"
               :current-page="currentPage"
-              :items="phes.items"
+              :items="allItems"
               :fields="fields"
               primary-key="name"
               :responsive="data.tableResponsive"
@@ -42,9 +42,9 @@
                       ></font-awesome-icon>
                     </div>
                     <div>
-                      <strong class="text-primary">{{
-                        data.item.description
-                      }}</strong>
+                      <strong class="text-primary">
+                        {{ data.item.description }}</strong
+                      >
                     </div>
                   </b-link>
                 </div>
@@ -52,7 +52,7 @@
             </b-table>
 
             <b-pagination
-              v-if="phes.items && phes.items.length > perPage"
+              v-if="itemsCount > perPage"
               v-model="currentPage"
               :total-rows="rows"
               :per-page="perPage"
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "cmp-phes",
@@ -96,15 +96,11 @@ export default {
         {
           key: "type",
           label: this.$t("phes.fields.type")
+        },
+        {
+          key: "description",
+          label: this.$t("phes.fields.description")
         }
-        // {
-        //   key: "category",
-        //   label: this.$t("phes.fields.category")
-        // },
-        // {
-        //   key: "description",
-        //   label: this.$t("phes.fields.description")
-        // }
       ]
     };
   },
@@ -114,16 +110,34 @@ export default {
   components: {
     CmpBaseTile: () => import("./BaseTile")
   },
+  methods: {
+    ...mapActions({
+      loadAllItems: "phes/getAll"
+    })
+  },
   computed: {
-    ...mapState({
-      phes: state => state.phes
+    ...mapGetters({
+      isLoading: "phes/isLoading",
+      isLoaded: "phes/isLoaded",
+      isError: "phes/isError",
+      getError: "phes/getError",
+      allItems: "phes/allItems",
+      itemsCount: "phes/itemsCount",
+      itemById: "phes/itemById"
     }),
     rows() {
-      return this.phes.items.length;
+      return this.itemsCount;
     }
   },
   created() {
-    this.$store.dispatch("phes/getAll");
+    this.loadAllItems();
+
+    this.$store
+      .dispatch("phes/getById", "97621464-3044-4a04-adc3-68dd7af08c30")
+      .then(() => {
+        const widget = this.itemById("97621464-3044-4a04-adc3-68dd7af08c30");
+        console.log(widget);
+      });
   }
 };
 </script>

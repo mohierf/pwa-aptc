@@ -34,7 +34,8 @@ export const backendConfig = {
   phesEndpoint: "/patient_health_events",
 
   // Other services
-  activitiesEndpoint: "/free_activities",
+  freeActivitiesEndpoint: "/free_activities",
+  activitiesEndpoint: "/activities",
 
   // Allowed users roles
   allowedRoles: ["ROLE_USER"]

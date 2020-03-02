@@ -98,6 +98,25 @@
     "p_email": "email address"
   },
 
+  "patients": {
+    "ok_message": "Got all patients",
+    "no_items": "No available patients",
+    "fields": {
+    }
+  },
+
+  "freeActivities": {
+    "ok_message": "Free activities",
+    "no_items": "No available activities",
+    "fields": {
+      "id": "ID",
+      "name": "Activity",
+      "status": "Status",
+      "url": " ",
+      "details": " "
+    }
+  },
+
   "activities": {
     "ok_message": "Got all activities",
     "no_items": "No available activities",

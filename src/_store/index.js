@@ -8,8 +8,10 @@ const vuexLocal = new VuexPersistence({
 
 import { user } from "./user.module";
 import { toasts } from "./toasts.module";
+import { freeActivities } from "./freeActivities.module";
 import { activities } from "./activities.module";
 import { phes } from "./phes.module";
+import { patients } from "./patients.module";
 
 Vue.use(Vuex);
 
@@ -17,8 +19,10 @@ export const store = new Vuex.Store({
   modules: {
     user,
     toasts,
+    freeActivities,
     activities,
-    phes
+    phes,
+    patients
   },
   plugins: [vuexLocal.plugin]
 });

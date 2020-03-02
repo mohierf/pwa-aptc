@@ -1,4 +1,4 @@
-import { activityService } from "../_services";
+import { patientService } from "../_services";
 import { router } from "../_helpers/router";
 
 const state = {
@@ -12,10 +12,10 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    activityService.getAll().then(
+    patientService.getAll().then(
       data => {
         commit("getAllSuccess", data);
-        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
+        dispatch("toasts/success", router.app.$t("patients.ok_message"), {
           root: true
         });
       },
@@ -24,7 +24,7 @@ const actions = {
         if (error && error !== "Unauthorized") {
           dispatch("toasts/error", error, { root: true });
         } else {
-          dispatch("user/userDenied", "Activities", { root: true });
+          dispatch("user/userDenied", "phes", { root: true });
         }
       }
     );
@@ -32,10 +32,10 @@ const actions = {
   getById({ dispatch, commit }, uuid) {
     commit("getOneRequest");
 
-    activityService.getById(uuid).then(
+    patientService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
-        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
+        dispatch("toasts/success", router.app.$t("patients.ok_message"), {
           root: true
         });
       },
@@ -44,7 +44,7 @@ const actions = {
         if (error && error !== "Unauthorized") {
           dispatch("toasts/error", error, { root: true });
         } else {
-          dispatch("user/userDenied", "activities", { root: true });
+          dispatch("user/userDenied", "patients", { root: true });
         }
       }
     );
@@ -62,23 +62,16 @@ const mutations = {
     _state.totalItems = 0;
 
     if (data) {
-      data["hydra:member"].forEach(freeActivity => {
-        // Remove unused information
-        delete freeActivity["patient"];
-        delete freeActivity["prescriber"];
-      });
-
+      // data["hydra:member"].forEach(patient => {
+      //   console.log(patient);
+      // });
       _state.totalItems = data["hydra:totalItems"];
-      console.log("Activities - Total", _state.totalItems);
+      console.log("Patients - Total", _state.totalItems);
       _state.countItems += data["hydra:member"].length;
-      console.log("Activities - Count", _state.countItems);
+      console.log("Patients - Count", _state.countItems);
       // Update stored data
       _state.items = data["hydra:member"];
     }
-
-    _state.items.forEach(freeActivity => {
-      console.log(freeActivity);
-    });
   },
   getAllFailure(_state, error) {
     _state.status = "error";
@@ -90,7 +83,6 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
-    console.log("getOne activity", data);
     // data["hydra:member"].forEach(phe => {
     //   // Remove unused information
     //   delete phe["patient"];
@@ -105,19 +97,9 @@ const mutations = {
   }
 };
 
-const getters = {
-  isLoading: _state => _state.status === "loading",
-  isError: _state => _state.status === "loading",
-  getError: _state => _state.error,
-  isLoaded: _state => _state.status === "success",
-  allItems: _state => _state.items,
-  itemsCount: _state => _state.items.length
-};
-
-export const activities = {
+export const patients = {
   namespaced: true,
   state,
   actions,
-  mutations,
-  getters
+  mutations
 };

@@ -3,18 +3,6 @@
   "type": "role",
   "rows": [
     {
-      "title": "Bienvenue...",
-      "columns": [
-        {
-          "span": "col-xs-6", "widget": "PHES",
-          "data": {
-            "title": "Mes PHEs",
-            "tableCaption": "Mes PHEs"
-          }
-        }
-      ]
-    },
-    {
       "title": "BaseTile avec un icône",
       "columns": [
         { "widget": "Mood",
@@ -23,6 +11,36 @@
           "data": {"icon": "align-center" }},
         { "widget": "Mood",
           "data": {"icon": "align-right", "iconPosition": "right" }}
+      ]
+    },
+    {
+      "title": "Bienvenue...",
+      "columns": [
+        {
+          "span": "col-xs-6", "widget": "PHES",
+          "data": {
+            "title": "Mes PHEs",
+            "tableCaption": "Mes PHEs"
+          }
+        },
+        {
+          "span": "col-xs-6", "widget": "Activities",
+          "data": {
+            "title": "Mes activités",
+            "tableCaption": "Mes activités"
+          }
+        }
+      ]
+    },
+    {
+      "columns": [
+        {
+          "span": "col-xs-12", "widget": "Activities",
+          "data": {
+            "title": "Mes activités",
+            "tableCaption": "Mes activités"
+          }
+        }
       ]
     },
     {

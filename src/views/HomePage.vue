@@ -98,6 +98,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { readFromStorage } from "../_helpers";
 
 import NavigationBar from "../components/NavigationBar";
 import FooterBar from "../components/FooterBar";
@@ -134,6 +135,9 @@ export default {
       });
       location.replace("/login");
     }
+
+    // this.$store.dispatch("patients/getAll");
+    this.$store.dispatch("patients/getById", readFromStorage("user_id"));
   },
   computed: {
     ...mapState({

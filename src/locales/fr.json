@@ -110,6 +110,25 @@
     "p_picture": ""
   },
 
+  "patients": {
+    "ok_message": "Liste des patients",
+    "no_items": "Pas de patients disponibles",
+    "fields": {
+    }
+  },
+
+  "freeActivities": {
+    "ok_message": "Activités libres",
+    "no_items": "Pas d'activités disponibles",
+    "fields": {
+      "id": "ID",
+      "name": "Activité",
+      "status": "Status",
+      "url": " ",
+      "details": " "
+    }
+  },
+
   "activities": {
     "ok_message": "Liste des activités",
     "no_items": "Pas d'activités disponibles",

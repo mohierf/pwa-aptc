@@ -22,11 +22,11 @@ RUN set -eux \
 
 RUN \
     yarn add @vue/cli@3.7.0 -g \
-    && yarn build --verbose \
-#    && npm install \
-#    && npm install @vue/cli@3.7.0 -g \
+    && yarn build --verbose
+
+RUN \
     # Fix permissions
-    && chown -R "${NODE_USER}:${NODE_USER}" /srv/app-web
+    chown -R "${NODE_USER}:${NODE_USER}" /srv/app-web
 
 ENTRYPOINT [ "/usr/local/sbin/dumb-init", "--", "/docker-entrypoint" ]
 CMD [ "yarn", "start" ]
@@ -42,7 +42,7 @@ ENV \
     BRANDING="default" \
     TITLE="apTeleCare"
 
-COPY --from=node /srv/app-web/build /srv/app-web/build
+COPY --from=node /srv/app-web/dist /srv/app-web/dist
 COPY ./docker/nginx/rootfs /
 WORKDIR /srv/app-web
 
