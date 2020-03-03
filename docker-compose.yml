@@ -3,36 +3,29 @@ version: '3.4'
 services:
 
   nginx:
-#    container_name: front
     build:
       context: .
       dockerfile: ./docker/Dockerfile
       target: nginx
     environment:
-      - 'API_ENDPOINT=${API_ENDPOINT:-http://api-nginx}'
-      - 'WS_ENDPOINT=${WS_ENDPOINT:-http://api-sigsrv}'
-      - 'BRANDING=${BRANDING:-default}'
-      - 'TITLE=${TITLE:-apTeleCare}'
-#    image: ./docker/nginx:${BRANCH:-develop}
+      - 'NODE_ENV=${NODE_ENV:-production}'
+    ports:
+      - '3001:80'
+    volumes:
+      - ./:/srv/app-web:rw
 
   node:
-#    container_name: front
     build:
       context: .
       dockerfile: ./docker/Dockerfile
       target: node
     environment:
-      # Set the user id for node
-      - 'NODE_USER=${_UID}'
-      #      - 'NODE_USER=${NODE_USER:-${_UID}}'
-#      - 'API_ENDPOINT=${API_ENDPOINT:-http://api-nginx}'
-#      - 'WS_ENDPOINT=${WS_ENDPOINT:-http://api-sigsrv}'
-#      - 'BROWSER_ENTRYPOINT=${API_ENTRYPOINT:-http://nginx}'
-#      - 'SELENIUM_CHROME_HOST=${SELENIUM_CHROME_HOST:-selenium-chrome}'
-#      - 'BRANDING=${BRANDING:-default}'
-#      - 'TITLE=${TITLE:-apTeleCare}'
-#    image: ./docker/node:${BRANCH:-develop}
-    volumes:
-      - ./reports:/srv/app-web/reports
+#      Set the user id for node
+      - "NODE_USER=${_UID}"
+      # Use NODE_USER if defined in the environment, else use the default user id
+#      - "NODE_USER=${NODE_USER:-${_UID}}"
     ports:
-      - '8081:8080'
+      - '8080:8080'
+    volumes:
+      - ./:/srv/app-web:rw
+#      - '/srv/app-web/node_modules'

@@ -124,8 +124,8 @@
       "id": "ID",
       "name": "Activité",
       "status": "Status",
-      "url": " ",
-      "details": " "
+      "description": "Description",
+      "lastAnswerDate": "Dernière réponse"
     }
   },
 

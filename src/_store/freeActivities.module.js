@@ -28,6 +28,31 @@ const actions = {
         }
       }
     );
+  },
+  getById({ dispatch, commit, getters }, uuid) {
+    if (getters["itemById"](uuid)) {
+      console.warn("freeActivity, Still loaded... load nyway -(", uuid);
+      // return;
+    }
+
+    commit("getOneRequest");
+
+    freeActivityService.getById(uuid).then(
+      data => {
+        commit("getOneSuccess", data);
+        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
+          root: true
+        });
+      },
+      error => {
+        commit("getOneFailure", error);
+        if (error && error !== "Unauthorized") {
+          dispatch("toasts/error", error, { root: true });
+        } else {
+          dispatch("user/userDenied", "phes", { root: true });
+        }
+      }
+    );
   }
 };
 
@@ -59,6 +84,28 @@ const mutations = {
   getAllFailure(_state, error) {
     _state.status = "error";
     _state.error = error;
+  },
+  getOneRequest(_state) {
+    _state.status = "loading";
+  },
+  getOneSuccess(_state, data) {
+    _state.status = "success";
+
+    let found = _state.items.find(item => item.id === data.id);
+    if (found) {
+      console.warn("freeActivity, Still stored, updating...", data.id);
+      // Remove unused information
+      delete data["patient"];
+      delete data["prescriber"];
+      console.warn("freeActivity:", data.activity);
+      found = data;
+    } else {
+      _state.items.push(data);
+    }
+  },
+  getOneFailure(_state, error) {
+    _state.status = "error";
+    _state.error = error;
   }
 };
 
@@ -67,8 +114,18 @@ const getters = {
   isError: _state => _state.status === "loading",
   getError: _state => _state.error,
   isLoaded: _state => _state.status === "success",
+  itemsCount: _state => _state.items.length,
   allItems: _state => _state.items,
-  itemsCount: _state => _state.items.length
+  itemById: _state => uuid => {
+    const found = _state.items.find(item => item.id === uuid);
+    return found;
+  },
+  itemByName: _state => name => {
+    const found = _state.items.find(item => item.activity.name === name);
+    console.log("Found free activity by name: ", found && found.activity.name);
+    console.log("Found free activity by name: ", found);
+    return found;
+  }
 };
 
 export const freeActivities = {

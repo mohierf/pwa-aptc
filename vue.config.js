@@ -20,6 +20,10 @@ module.exports = {
       ]
     };
   },
+  // remove vue-cli-service's progress output
+  devServer: {
+    progress: false
+  },
   pluginOptions: {
     i18n: {
       locale: "en",

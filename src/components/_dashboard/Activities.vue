@@ -27,28 +27,6 @@
               primary-key="name"
               :responsive="data.tableResponsive"
             >
-              <!-- A custom formatted column -->
-              <template v-slot:cell(name)="data">
-                <div class="align-middle">
-                  <b-link
-                    v-if="data.item.url"
-                    :href="data.item.url"
-                    target="_blank"
-                  >
-                    <div>
-                      <font-awesome-icon
-                        icon="file-alt"
-                        size="4x"
-                      ></font-awesome-icon>
-                    </div>
-                    <div>
-                      <strong class="text-primary">
-                        {{ data.item.description }}</strong
-                      >
-                    </div>
-                  </b-link>
-                </div>
-              </template>
             </b-table>
 
             <b-pagination
@@ -82,25 +60,25 @@ export default {
   data() {
     return {
       currentPage: 1,
-      perPage: 2,
+      perPage: 5,
       // The list of most useful fields
       fields: [
-        {
-          key: "id",
-          label: this.$t("freeActivities.fields.id")
-        },
+        // {
+        //   key: "id",
+        //   label: this.$t("freeActivities.fields.id")
+        // },
         {
           key: "activity.name",
           label: this.$t("freeActivities.fields.name")
+        },
+        {
+          key: "activity.description",
+          label: this.$t("freeActivities.fields.description")
+        },
+        {
+          key: "lastAnswerDate",
+          label: this.$t("freeActivities.fields.lastAnswerDate")
         }
-        // {
-        //   key: "category",
-        //   label: this.$t("freeActivities.fields.category")
-        // },
-        // {
-        //   key: "description",
-        //   label: this.$t("freeActivities.fields.description")
-        // }
       ]
     };
   },
@@ -112,7 +90,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadAllItems: "freeActivities/getAll"
+      loadAllItems: "freeActivities/getAll",
+      loadOne: "freeActivities/getById"
     })
   },
   computed: {
@@ -122,19 +101,33 @@ export default {
       isError: "freeActivities/isError",
       getError: "freeActivities/getError",
       allItems: "freeActivities/allItems",
-      itemsCount: "freeActivities/itemsCount"
+      itemsCount: "freeActivities/itemsCount",
+      itemById: "freeActivities/itemById",
+      itemByName: "freeActivities/itemByName"
     }),
     rows() {
       return this.itemsCount;
     }
   },
   created() {
-    this.loadAllItems();
-    //
-    // this.$store.dispatch("activities/getById", { id: 42 }).then(() => {
-    //   const widget = this.$store.getters["activities/byId"]({ id: 42 });
-    //   console.log(widget);
-    // });
+    this.loadAllItems()
+      .then(() => {
+        this.allItems.forEach(freeActivity => {
+          console.log(
+            "fa: ",
+            freeActivity.id,
+            freeActivity.activity.name,
+            freeActivity.lastAnswerDate
+          );
+          this.loadOne(freeActivity.id);
+        });
+      })
+      .then(() => {
+        const widget = this.itemByName("03 - Suivi du poids");
+        console.log("widget Free Activity", widget.activity);
+        console.log("widget Free Activity", widget.activity.value);
+        // console.log("widget Free Activity", widget.activity.activityValues);
+      });
   }
 };
 </script>

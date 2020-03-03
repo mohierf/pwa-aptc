@@ -26,7 +26,7 @@ function getAll() {
 }
 
 function getById(uuid) {
-  console.log(backendConfig.apiUser);
+  console.log("Activities - getById", backendConfig.apiUser);
   if (backendConfig.apiUser) {
     return machineService.get(`${backendConfig.activitiesEndpoint}/` + uuid);
   }

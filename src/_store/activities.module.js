@@ -110,8 +110,14 @@ const getters = {
   isError: _state => _state.status === "loading",
   getError: _state => _state.error,
   isLoaded: _state => _state.status === "success",
+  itemsCount: _state => _state.items.length,
   allItems: _state => _state.items,
-  itemsCount: _state => _state.items.length
+  itemById: _state => uuid => {
+    console.log("Activities:", _state.items);
+    const found = _state.items.find(item => item.id === uuid);
+    console.log("Found activity: ", found && found.title);
+    return found;
+  }
 };
 
 export const activities = {

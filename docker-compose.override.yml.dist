@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+
+  nginx:
+    environment:
+      - 'NODE_ENV=${NODE_ENV:-production}'
+    ports:
+      - '3001:80'
+
+  node:
+    environment:
+#      Set the user id for node
+      - "NODE_USER=${_UID}"
+    ports:
+      - '8080:8080'

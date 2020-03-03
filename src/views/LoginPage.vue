@@ -15,6 +15,7 @@
             :alt="$t('logo.alt')"
             :title="$t('logo.title')"
             src="../assets/logo.png"
+            class="logo"
           />
         </router-link>
       </b-col>
@@ -206,3 +207,10 @@ export default {
   }
 };
 </script>
+
+<style>
+img.logo {
+  width: 100%;
+  max-width: 512px;
+}
+</style>

@@ -112,8 +112,8 @@
       "id": "ID",
       "name": "Activity",
       "status": "Status",
-      "url": " ",
-      "details": " "
+      "description": "Description",
+      "lastAnswerDate": "Last answer"
     }
   },
 

@@ -27,9 +27,9 @@ const actions = {
       }
     );
   },
-  getById({ dispatch, commit, _getters }, uuid) {
-    if (_getters["itemById"](uuid)) {
-      console.log("Still loaded", uuid);
+  getById({ dispatch, commit, getters }, uuid) {
+    if (getters["itemById"](uuid)) {
+      console.log("PHE, Still loaded", uuid);
       return;
     }
 
@@ -79,7 +79,7 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
-    console.log("getOne phe", data);
+    console.log("getOne PHE", data);
   },
   getOneFailure(_state, error) {
     _state.status = "error";
@@ -97,7 +97,7 @@ const getters = {
   itemById: _state => uuid => {
     console.log("Find phes by Id:", uuid);
     const found = _state.items.find(item => item.id === uuid);
-    console.log("Found: ", found.title);
+    console.log("Found PHE: ", found && found.title);
     return found;
   }
 };

@@ -7,17 +7,17 @@
     <template v-slot:body>
       <b-card-text>
         <font-awesome-icon
-          icon="angry"
+          icon="frown"
           :size="data.iconSize || '3x'"
           :pull="data.iconPosition"
         ></font-awesome-icon>
         <font-awesome-icon
-          icon="coffee"
+          icon="meh"
           :size="data.iconSize || '3x'"
           :pull="data.iconPosition"
         ></font-awesome-icon>
         <font-awesome-icon
-          icon="trash"
+          icon="grin"
           :size="data.iconSize || '3x'"
           :pull="data.iconPosition"
         ></font-awesome-icon>
