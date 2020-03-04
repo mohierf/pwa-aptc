@@ -211,6 +211,6 @@ export default {
 <style>
 img.logo {
   width: 100%;
-  max-width: 512px;
+  max-width: 256px;
 }
 </style>

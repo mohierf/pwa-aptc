@@ -12,7 +12,7 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    activityService.getAll().then(
+    return activityService.getAll().then(
       data => {
         commit("getAllSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {
@@ -30,9 +30,14 @@ const actions = {
     );
   },
   getById({ dispatch, commit }, uuid) {
+    const existing = getters["itemById"](uuid);
+    if (existing) {
+      return Promise.resolve(existing);
+    }
+
     commit("getOneRequest");
 
-    activityService.getById(uuid).then(
+    return activityService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {

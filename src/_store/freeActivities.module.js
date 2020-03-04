@@ -12,7 +12,7 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    freeActivityService.getAll().then(
+    return freeActivityService.getAll().then(
       data => {
         commit("getAllSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {
@@ -30,14 +30,14 @@ const actions = {
     );
   },
   getById({ dispatch, commit, getters }, uuid) {
-    if (getters["itemById"](uuid)) {
-      console.warn("freeActivity, Still loaded... load nyway -(", uuid);
-      // return;
+    const existing = getters["itemById"](uuid);
+    if (existing) {
+      console.warn("freeActivity, Still loaded... load anyway -(", uuid);
     }
 
     commit("getOneRequest");
 
-    freeActivityService.getById(uuid).then(
+    return freeActivityService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {
@@ -93,15 +93,17 @@ const mutations = {
 
     let found = _state.items.find(item => item.id === data.id);
     if (found) {
-      console.warn("freeActivity, Still stored, updating...", data.id);
+      const index = _state.items.find(item => item.id === data.id);
+      console.warn("freeActivity, Still stored, updating...", index);
       // Remove unused information
       delete data["patient"];
       delete data["prescriber"];
-      console.warn("freeActivity:", data.activity);
-      found = data;
+      _state.items[index] = data;
+      console.warn("freeActivity:", _state.items[index]);
     } else {
       _state.items.push(data);
     }
+    console.warn("freeActivities: ", _state.items.length);
   },
   getOneFailure(_state, error) {
     _state.status = "error";

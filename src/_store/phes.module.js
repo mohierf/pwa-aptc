@@ -10,7 +10,7 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    pheService.getAll().then(
+    return pheService.getAll().then(
       data => {
         commit("getAllSuccess", data);
         dispatch("toasts/success", router.app.$t("phes.ok_message"), {
@@ -28,14 +28,15 @@ const actions = {
     );
   },
   getById({ dispatch, commit, getters }, uuid) {
-    if (getters["itemById"](uuid)) {
-      console.log("PHE, Still loaded", uuid);
-      return;
+    const existing = getters["itemById"](uuid);
+    if (existing) {
+      // console.log("PHE, Still loaded", uuid);
+      return Promise.resolve(existing);
     }
 
     commit("getOneRequest");
 
-    pheService.getById(uuid).then(
+    return pheService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
         dispatch("toasts/success", router.app.$t("phes.ok_message"), {
@@ -95,10 +96,7 @@ const getters = {
   itemsCount: _state => _state.items.length,
   allItems: _state => _state.items,
   itemById: _state => uuid => {
-    console.log("Find phes by Id:", uuid);
-    const found = _state.items.find(item => item.id === uuid);
-    console.log("Found PHE: ", found && found.title);
-    return found;
+    return _state.items.find(item => item.id === uuid);
   }
 };
 

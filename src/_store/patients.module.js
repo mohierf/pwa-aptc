@@ -12,7 +12,7 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    patientService.getAll().then(
+    return patientService.getAll().then(
       data => {
         commit("getAllSuccess", data);
         dispatch("toasts/success", router.app.$t("patients.ok_message"), {
@@ -29,10 +29,15 @@ const actions = {
       }
     );
   },
-  getById({ dispatch, commit }, uuid) {
+  getById({ dispatch, commit, getters }, uuid) {
+    const existing = getters["itemById"](uuid);
+    if (existing) {
+      return Promise.resolve(existing);
+    }
+
     commit("getOneRequest");
 
-    patientService.getById(uuid).then(
+    return patientService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
         dispatch("toasts/success", router.app.$t("patients.ok_message"), {
@@ -97,9 +102,22 @@ const mutations = {
   }
 };
 
+const getters = {
+  isLoading: _state => _state.status === "loading",
+  isError: _state => _state.status === "loading",
+  getError: _state => _state.error,
+  isLoaded: _state => _state.status === "success",
+  itemsCount: _state => _state.items.length,
+  allItems: _state => _state.items,
+  itemById: _state => uuid => {
+    return _state.items.find(item => item.id === uuid);
+  }
+};
+
 export const patients = {
   namespaced: true,
   state,
   actions,
-  mutations
+  mutations,
+  getters
 };

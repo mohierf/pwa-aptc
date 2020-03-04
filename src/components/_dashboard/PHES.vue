@@ -131,13 +131,13 @@ export default {
   },
   created() {
     this.loadAllItems();
-
-    this.$store
-      .dispatch("phes/getById", "97621464-3044-4a04-adc3-68dd7af08c30")
-      .then(() => {
-        const widget = this.itemById("97621464-3044-4a04-adc3-68dd7af08c30");
-        console.log("widget PHEs", widget);
-      });
+    //
+    // this.$store
+    //   .dispatch("phes/getById", "97621464-3044-4a04-adc3-68dd7af08c30")
+    //   .then(() => {
+    //     const widget = this.itemById("97621464-3044-4a04-adc3-68dd7af08c30");
+    //     console.log("widget PHEs", widget);
+    //   });
   }
 };
 </script>
