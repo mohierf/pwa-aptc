@@ -23,7 +23,6 @@ function getAll() {
 }
 
 function getById(uuid) {
-  console.log(backendConfig.apiUser);
   if (backendConfig.apiUser) {
     return machineService.get(`${backendConfig.patientsEndpoint}/` + uuid);
   }

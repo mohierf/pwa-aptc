@@ -74,9 +74,9 @@ const mutations = {
       });
 
       _state.totalItems = data["hydra:totalItems"];
-      console.log("FreeActivities - Total", _state.totalItems);
+      console.log("FreeActivities - All, total", _state.totalItems);
       _state.countItems += data["hydra:member"].length;
-      console.log("FreeActivities - Count", _state.countItems);
+      console.log("FreeActivities - All, count", _state.countItems);
       // Update stored data
       _state.items = data["hydra:member"];
     }
@@ -91,19 +91,18 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
+    console.warn("freeActivities getOneSuccess: ", data);
     let found = _state.items.find(item => item.id === data.id);
     if (found) {
       const index = _state.items.find(item => item.id === data.id);
-      console.warn("freeActivity, Still stored, updating...", index);
       // Remove unused information
       delete data["patient"];
       delete data["prescriber"];
       _state.items[index] = data;
-      console.warn("freeActivity:", _state.items[index]);
     } else {
       _state.items.push(data);
     }
-    console.warn("freeActivities: ", _state.items.length);
+    console.warn("freeActivities count: ", _state.items.length);
   },
   getOneFailure(_state, error) {
     _state.status = "error";
@@ -123,9 +122,9 @@ const getters = {
     return found;
   },
   itemByName: _state => name => {
-    const found = _state.items.find(item => item.activity.name === name);
-    console.log("Found free activity by name: ", found && found.activity.name);
-    console.log("Found free activity by name: ", found);
+    const found = _state.items.find(item => item.activity.name.includes(name));
+    // console.log("Found free activity by name: ", found && found.activity.name);
+    // console.log("Found free activity by name: ", found);
     return found;
   }
 };

@@ -112,21 +112,27 @@ export default {
   created() {
     this.loadAllItems()
       .then(() => {
-        this.allItems.forEach(freeActivity => {
-          console.log(
-            "fa: ",
-            freeActivity.id,
-            freeActivity.activity.name,
-            freeActivity.lastAnswerDate
-          );
-          this.loadOne(freeActivity.id);
+        console.log("All loaded!");
+        const allItems = this.allItems;
+        allItems.forEach(async freeActivity => {
+          console.log("fa: ", freeActivity.id, freeActivity.activity.name, freeActivity.lastAnswerDate);
+          await this.loadOne(freeActivity.id);
         });
+        // this.allItems.forEach(freeActivity => {
+        //   console.log("fa: ", freeActivity.id, freeActivity.activity.name, freeActivity.lastAnswerDate);
+        //   this.loadOne(freeActivity.id);
+        // });
+        console.log("All really loaded!")
       })
       .then(() => {
-        const widget = this.itemByName("03 - Suivi du poids");
-        console.log("widget Free Activity", widget.activity);
-        console.log("widget Free Activity", widget.activity.value);
-        // console.log("widget Free Activity", widget.activity.activityValues);
+        console.log("Trying to get Poids...")
+        const widget = this.itemByName("Suivi du poids");
+        if (widget) {
+          console.log("widget Free Activity", widget.activity);
+          console.log("widget Free Activity", widget.activity.value);
+        } else {
+          console.error("Not found - suivi du poids!");
+        }
       });
   }
 };

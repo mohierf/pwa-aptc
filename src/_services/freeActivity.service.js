@@ -13,6 +13,7 @@ export const freeActivityService = {
 
 function getAll() {
   if (backendConfig.apiUser) {
+    console.log("machine - fa - getAll");
     const my_id = readFromStorage("user_id");
     return machineService.get(
       `${backendConfig.freeActivitiesEndpoint}?patient=${my_id}`
@@ -27,6 +28,7 @@ function getAll() {
 
 function getById(uuid) {
   if (backendConfig.apiUser) {
+    console.log("machine - fa - getById");
     return machineService.get(
       `${backendConfig.freeActivitiesEndpoint}/` + uuid
     );

@@ -88,13 +88,16 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
-    // data["hydra:member"].forEach(phe => {
-    //   // Remove unused information
-    //   delete phe["patient"];
-    //   delete phe["author"];
-    // });
+    console.log("Patient: ", data);
 
-    _state.items = data["hydra:member"];
+    // let found = _state.items.find(item => item.id === data.id);
+    // if (found) {
+    //   const index = _state.items.find(item => item.id === data.id);
+    //   _state.items[index] = data;
+    // } else {
+    //   _state.items.push(data);
+    // }
+    // console.warn("Patients count: ", _state.items.length);
   },
   getOneFailure(_state, error) {
     _state.status = "error";
