@@ -110,30 +110,43 @@ export default {
     }
   },
   created() {
-    this.loadAllItems()
-      .then(() => {
-        console.log("All loaded!");
-        const allItems = this.allItems;
-        allItems.forEach(async freeActivity => {
-          console.log("fa: ", freeActivity.id, freeActivity.activity.name, freeActivity.lastAnswerDate);
+    // Event handler when all activities were fully loaded
+    this.$root.$on("got_all_first_activities", () => {
+      console.log("Got all !");
+
+      console.log("Trying to get Poids...");
+      const widget = this.itemByName("Suivi du poids");
+      if (widget) {
+        console.log("widget Free Activity", widget.activity);
+        console.log("widget Free Activity", widget.activity.activityValues);
+        writeToStorage("user_id", parsed.id);
+
+      } else {
+        console.error("Not found - suivi du poids!");
+      }
+    });
+
+    this.loadAllItems().then(() => {
+      console.log("Loaded all activities (first run only)!");
+      const allItems = this.allItems;
+
+      // Synchronise to be sure to get real activities...
+      const start = async () => {
+        // Use a for() loop because forEach is not really asynchronous :/
+        for (let index = 0; index < allItems.length; index++) {
+          const freeActivity = allItems[index];
+          // console.log("fa: ", freeActivity.id, freeActivity.activity.name);
           await this.loadOne(freeActivity.id);
-        });
-        // this.allItems.forEach(freeActivity => {
-        //   console.log("fa: ", freeActivity.id, freeActivity.activity.name, freeActivity.lastAnswerDate);
-        //   this.loadOne(freeActivity.id);
-        // });
-        console.log("All really loaded!")
-      })
-      .then(() => {
-        console.log("Trying to get Poids...")
-        const widget = this.itemByName("Suivi du poids");
-        if (widget) {
-          console.log("widget Free Activity", widget.activity);
-          console.log("widget Free Activity", widget.activity.value);
-        } else {
-          console.error("Not found - suivi du poids!");
         }
-      });
+        console.log("All activities are now really loaded!");
+
+        // Update current application language
+        this.$root.$emit("got_all_first_activities");
+      };
+      start();
+
+      return Promise.resolve("All");
+    });
   }
 };
 </script>

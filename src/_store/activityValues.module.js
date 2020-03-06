@@ -1,4 +1,4 @@
-import { freeActivityService } from "../_services";
+import { activityValueService } from "../_services";
 import { router } from "../_helpers/router";
 
 const state = {
@@ -12,7 +12,7 @@ const actions = {
   getAll({ dispatch, commit }) {
     commit("getAllRequest");
 
-    return freeActivityService.getAll().then(
+    return activityValueService.getAll().then(
       data => {
         commit("getAllSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {
@@ -37,7 +37,7 @@ const actions = {
 
     commit("getOneRequest");
 
-    return freeActivityService.getById(uuid).then(
+    return activityValueService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
         dispatch("toasts/success", router.app.$t("activities.ok_message"), {
@@ -74,7 +74,9 @@ const mutations = {
       });
 
       _state.totalItems = data["hydra:totalItems"];
+      console.log("activityValues - All, total", _state.totalItems);
       _state.countItems += data["hydra:member"].length;
+      console.log("activityValues - All, count", _state.countItems);
       // Update stored data
       _state.items = data["hydra:member"];
     }
@@ -89,16 +91,18 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
-    // Remove unused information
-    delete data["patient"];
-    delete data["prescriber"];
-
-    if (_state.items.find(item => item.id === data.id)) {
-      const index = _state.items.findIndex(item => item.id === data.id);
+    console.warn("activityValues getOneSuccess: ", data);
+    let found = _state.items.find(item => item.id === data.id);
+    if (found) {
+      const index = _state.items.find(item => item.id === data.id);
+      // Remove unused information
+      delete data["patient"];
+      delete data["prescriber"];
       _state.items[index] = data;
     } else {
       _state.items.push(data);
     }
+    console.warn("activityValues count: ", _state.items.length);
   },
   getOneFailure(_state, error) {
     _state.status = "error";
@@ -125,7 +129,7 @@ const getters = {
   }
 };
 
-export const freeActivities = {
+export const activityValues = {
   namespaced: true,
   state,
   actions,

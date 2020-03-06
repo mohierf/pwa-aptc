@@ -202,7 +202,6 @@ const mutations = {
     //
     const parsed = jwtParse(_state.access_token);
     // I got my own UUID
-    console.log("uuid", parsed.id);
     writeToStorage("user_id", parsed.id);
 
     // // Next expiry is

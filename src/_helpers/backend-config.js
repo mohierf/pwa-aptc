@@ -36,6 +36,8 @@ export const backendConfig = {
   // Other services
   freeActivitiesEndpoint: "/free_activities",
   activitiesEndpoint: "/activities",
+  activityValuesEndpoint: "/activity_values",
+  valuesEndpoint: "/values",
 
   // Allowed users roles
   allowedRoles: ["ROLE_USER"]
