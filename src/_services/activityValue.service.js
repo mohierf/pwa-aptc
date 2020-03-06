@@ -2,7 +2,7 @@
  * Activities services
  */
 
-import { backendConfig, readFromStorage } from "../_helpers";
+import { backendConfig } from "../_helpers";
 import { requestOptions, handleResponse } from "../_helpers";
 import { machineService } from "../_services";
 
@@ -11,12 +11,11 @@ export const activityValueService = {
   getById
 };
 
-function getAll() {
+function getAll(activityId = null) {
   if (backendConfig.apiUser) {
-    console.log("machine - av - getAll");
-    const my_id = readFromStorage("user_id");
+    console.log("machine - av - getAll", activityId);
     return machineService.get(
-      `${backendConfig.activityValuesEndpoint}?patient=${my_id}`
+      `${backendConfig.activityValuesEndpoint}?activity=${activityId}`
     );
   }
 

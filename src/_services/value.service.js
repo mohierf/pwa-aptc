@@ -29,9 +29,7 @@ function getAll() {
 function getById(uuid) {
   if (backendConfig.apiUser) {
     console.log("machine - av - getById");
-    return machineService.get(
-      `${backendConfig.valuesEndpoint}/` + uuid
-    );
+    return machineService.get(`${backendConfig.valuesEndpoint}/` + uuid);
   }
 
   return fetch(

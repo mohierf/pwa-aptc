@@ -1,6 +1,3 @@
-import { valueService } from "../_services";
-import { router } from "../_helpers/router";
-
 const state = {
   status: "",
   items: [],
@@ -9,89 +6,16 @@ const state = {
 };
 
 const actions = {
-  getAll({ dispatch, commit }) {
-    commit("getAllRequest");
-
-    return valueService.getAll().then(
-      data => {
-        commit("getAllSuccess", data);
-        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
-          root: true
-        });
-      },
-      error => {
-        commit("getAllFailure", error);
-        if (error && error !== "Unauthorized") {
-          dispatch("toasts/error", error, { root: true });
-        } else {
-          dispatch("user/userDenied", "Activities", { root: true });
-        }
-      }
-    );
-  },
-  getById({ dispatch, commit, getters }, uuid) {
-    const existing = getters["itemById"](uuid);
-    if (existing) {
-      console.debug("freeActivity, Still loaded... load anyway -(", uuid);
-    }
-
-    commit("getOneRequest");
-
-    return valueService.getById(uuid).then(
-      data => {
-        commit("getOneSuccess", data);
-        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
-          root: true
-        });
-      },
-      error => {
-        commit("getOneFailure", error);
-        if (error && error !== "Unauthorized") {
-          dispatch("toasts/error", error, { root: true });
-        } else {
-          dispatch("user/userDenied", "phes", { root: true });
-        }
-      }
-    );
+  setOne({ commit }, data) {
+    commit("setOne", data);
   }
 };
 
 const mutations = {
-  getAllRequest(_state) {
-    _state.status = "loading";
-  },
-  getAllSuccess(_state, data) {
-    _state.status = "success";
-    _state.items = [];
-    _state.countItems = 0;
-    _state.totalItems = 0;
-
-    if (data) {
-      data["hydra:member"].forEach(freeActivity => {
-        // Remove unused information
-        delete freeActivity["patient"];
-        delete freeActivity["prescriber"];
-      });
-
-      _state.totalItems = data["hydra:totalItems"];
-      console.log("Values - All, total", _state.totalItems);
-      _state.countItems += data["hydra:member"].length;
-      console.log("Values - All, count", _state.countItems);
-      // Update stored data
-      _state.items = data["hydra:member"];
-    }
-  },
-  getAllFailure(_state, error) {
-    _state.status = "error";
-    _state.error = error;
-  },
-  getOneRequest(_state) {
-    _state.status = "loading";
-  },
-  getOneSuccess(_state, data) {
+  setOne(_state, data) {
     _state.status = "success";
 
-    console.warn("Values getOneSuccess: ", data);
+    console.warn("Values getOne: ", data);
     let found = _state.items.find(item => item.id === data.id);
     if (found) {
       const index = _state.items.find(item => item.id === data.id);
@@ -102,34 +26,64 @@ const mutations = {
     } else {
       _state.items.push(data);
     }
+
+    // Make it more configurable
+    const weightValue = data.name.includes("Poids");
+    if (weightValue) {
+      console.log("this", this);
+      // Raise an event because the user weight is needed
+      // this.$root.$emit("exist_value_weight");
+    }
+
     console.warn("Values count: ", _state.items.length);
-  },
-  getOneFailure(_state, error) {
-    _state.status = "error";
-    _state.error = error;
   }
 };
 
 const getters = {
-  isLoading: _state => _state.status === "loading",
-  isError: _state => _state.status === "loading",
-  getError: _state => _state.error,
-  isLoaded: _state => _state.status === "success",
   itemsCount: _state => _state.items.length,
   allItems: _state => _state.items,
   itemById: _state => uuid => {
-    const found = _state.items.find(item => item.id === uuid);
-    return found;
+    return _state.items.find(item => item.id === uuid);
   },
-  itemByName: _state => name => {
-    const found = _state.items.find(item => item.activity.name.includes(name));
-    // console.log("Found free activity by name: ", found && found.activity.name);
-    // console.log("Found free activity by name: ", found);
+  itemByName: _state => (name, log = false) => {
+    const found = _state.items.find(item => item.name.includes(name));
+    console.log("Found value by name: ", found);
+    console.log("Found value by name: ", found && found.name);
+
+    if (found && log) {
+      console.log("av: ", found.id, found.name);
+      console.log("- type: ", found.type);
+      console.log("- version: ", found.version);
+      console.log("- question: ", found.question);
+      // console.log(
+      //     "- author: ",
+      //     found.author.id,
+      //     found.author.firstname,
+      //     found.author.lastname
+      // );
+      console.log("- board display: ", found.boardDisplay);
+      console.log("- mandatory answer: ", found.mandatoryAnswer);
+
+      console.log("- properties: ", found.properties);
+      console.log("  - bounds type: ", found.properties.boundsType);
+      // console.log("  - bounds types: ", found.properties.boundsTypes);
+      console.log("  - min value: ", found.properties.minValue);
+      console.log("  - max value: ", found.properties.maxValue);
+      console.log("  - computed min value: ", found.properties.computedMinValue);
+      console.log("  - computed max value: ", found.properties.computedMaxValue);
+      console.log("  - reference value: ", found.properties.referenceValue);
+      console.log("  - initial value: ", found.properties.initialValue);
+      // console.log("  - initial value options: ", found.properties.initialValueOptions);
+      console.log("  - step: ", found.properties.step);
+      // console.log("  - steps: ", found.properties.steps);
+      // console.log("  - unit: ", found.properties.unit);
+      console.log("  - unit literal: ", found.properties.unitLiteral);
+    }
     return found;
   }
 };
 
-export const freeActivities = {
+export const values = {
   namespaced: true,
   state,
   actions,

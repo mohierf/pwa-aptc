@@ -12,6 +12,7 @@ import { freeActivities } from "./freeActivities.module";
 import { activities } from "./activities.module";
 import { phes } from "./phes.module";
 import { patients } from "./patients.module";
+import { values } from "./values.module";
 
 Vue.use(Vuex);
 
@@ -22,7 +23,8 @@ export const store = new Vuex.Store({
     freeActivities,
     activities,
     phes,
-    patients
+    patients,
+    values
   },
   plugins: [vuexLocal.plugin]
 });
