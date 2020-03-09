@@ -39,6 +39,9 @@ export const backendConfig = {
   activityValuesEndpoint: "/activity_values",
   valuesEndpoint: "/values",
 
+  // Send information
+  answerEndpoint: "/activity_answers",
+
   // Allowed users roles
   allowedRoles: ["ROLE_USER"]
 };
