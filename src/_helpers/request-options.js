@@ -21,17 +21,17 @@ export const requestOptions = {
       ...userHeaders(headers, machine, url)
     };
   },
-  post(body, headers = {}) {
+  post(body, headers = {}, machine = false, url = null) {
     return {
       method: "POST",
-      ...userHeaders(headers),
-      body: JSON.stringify(body)
+      ...userHeaders(headers, machine, url),
+      body: body
     };
   },
-  patch(body, headers = {}) {
+  patch(body, headers = {}, machine = false, url = null) {
     return {
       method: "PATCH",
-      ...userHeaders(headers),
+      ...userHeaders(headers, machine, url),
       body: JSON.stringify(body)
     };
   },
@@ -50,28 +50,27 @@ export const requestOptions = {
   }
 };
 
-function userHeaders(headers = {}, machine = false, url = null) {
+function userHeaders(headers = null, machine = false, url = null) {
   // Machine API - specific headers
   if (machine) {
     return machineHeaders(headers, url);
   }
 
+  // If headers are null, we do not even want any content type!
+  if (headers !== null && !("Content-Type" in headers)) {
+    headers = { "Content-Type": "application/ld+json" };
+  }
   // Set authorization header with jwt access token
   const token = readFromStorage("access_token") || {};
   if (token) {
     headers["Authorization"] = "Bearer " + token;
   }
 
-  return {
-    headers: {
-      ...headers,
-      "Content-Type": "application/ld+json"
-    }
-  };
+  return { headers: headers };
 }
 export { userHeaders };
 
-function machineHeaders(headers = {}, url = null) {
+function machineHeaders(headers = null, url = null) {
   const timestamp = Math.floor(Date.now() / 1000);
   const endpoint =
     url.indexOf("?") !== -1 ? url.substring(0, url.indexOf("?")) : url;
@@ -79,14 +78,16 @@ function machineHeaders(headers = {}, url = null) {
     CryptoJS.HmacSHA512(endpoint + timestamp, backendConfig.apiToken)
   );
 
+  // If headers are null, we do not even want any content type!
+  if (headers !== null && !("Content-Type" in headers)) {
+    headers = { "Content-Type": "application/ld+json" };
+  }
+  // Set authorization header with machine specific access token
   let buff = new Buffer(backendConfig.apiUser + ":" + signature);
-
+  if (headers === null) {
+    headers = {}
+  }
   headers["x-auth-token"] = buff.toString("base64");
 
-  return {
-    headers: {
-      ...headers,
-      "Content-Type": "application/ld+json"
-    }
-  };
+  return { headers: headers };
 }

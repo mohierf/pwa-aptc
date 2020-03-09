@@ -24,7 +24,7 @@ function login(username, password) {
     method: "POST",
     // Use form encoded data
     ...userHeaders({
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }),
     body: formEncode({ username: username, password: password })
   })
@@ -77,7 +77,7 @@ function refreshTokens() {
     method: "POST",
     // Use form encoded data
     ...userHeaders({
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }),
     body: formEncode({ refresh_token: readFromStorage("refresh_token") })
   })

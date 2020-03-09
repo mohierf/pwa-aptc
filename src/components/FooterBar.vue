@@ -12,9 +12,9 @@
     <b-navbar toggleable="md" type="light" variant="light" fixed="bottom">
       <b-container fluid="md">
         <span>{{ $t("footer.message") }}</span>
-        <router-link v-b-modal="'modal-legals'" to="/legals">{{
-          $t("actions.b_legals")
-        }}</router-link>
+        <router-link v-b-modal="'modal-legals'" to="/legals">
+          {{ $t("actions.b_legals") }}
+        </router-link>
       </b-container>
     </b-navbar>
   </div>

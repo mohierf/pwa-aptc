@@ -42,6 +42,9 @@ export const backendConfig = {
   // Send information
   answerEndpoint: "/activity_answers",
 
+  // Media information
+  mediaEndpoint: "/media/add",
+
   // Allowed users roles
   allowedRoles: ["ROLE_USER"]
 };

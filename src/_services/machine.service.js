@@ -7,6 +7,7 @@ import { backendConfig, requestOptions, handleResponse } from "../_helpers";
 export const machineService = {
   get,
   post,
+  postMedia,
   put
 };
 
@@ -35,6 +36,25 @@ function post(url, data) {
     })
     .catch(error => {
       console.log("Machine Post error:", error);
+    });
+}
+
+function postMedia(url, data) {
+  return fetch(
+      `${backendConfig.apiUrl}${url}`,
+    requestOptions.post(
+      data,
+      null,
+      true,
+      url
+    )
+  )
+    .then(handleResponse)
+    .then(body => {
+      return body;
+    })
+    .catch(error => {
+      console.log("Machine postMedia error:", error);
     });
 }
 

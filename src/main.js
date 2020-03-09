@@ -3,7 +3,7 @@ import "mutationobserver-shim";
 import Vue from "vue";
 import "./plugins/bootstrap-vue";
 import App from "./App.vue";
-import { router } from "./_helpers/router";
+import { router } from "./_helpers";
 import { store } from "./_store";
 import { i18n } from "./i18n";
 
@@ -37,7 +37,7 @@ Vue.use(VueMoment, {
   moment
 });
 
-// The appication service worker to manage the offline mode
+// The application service worker to manage the offline mode
 import "./registerServiceWorker";
 
 Vue.config.productionTip = false;

@@ -95,7 +95,11 @@
     "p_last_name": "Last name",
     "f_email": "Email address",
     "d_email": "We'll never share your email with anyone else.",
-    "p_email": "email address"
+    "p_email": "email address",
+    "f_picture": "Picture",
+    "d_picture": "Choose a picture",
+    "p_picture": "",
+    "p_drop_picture": "Drop a picture"
   },
 
   "patients": {

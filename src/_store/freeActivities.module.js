@@ -1,5 +1,5 @@
 import { freeActivityService } from "../_services";
-import { router } from "../_helpers/router";
+import { router } from "../_helpers";
 
 const state = {
   status: "",
@@ -29,20 +29,12 @@ const actions = {
       }
     );
   },
-  getById({ dispatch, commit, getters }, uuid) {
-    const existing = getters["itemById"](uuid);
-    if (existing) {
-      console.debug("freeActivity, Still loaded... load anyway -(", uuid);
-    }
-
+  getById({ dispatch, commit }, uuid) {
     commit("getOneRequest");
 
     return freeActivityService.getById(uuid).then(
       data => {
         commit("getOneSuccess", data);
-        dispatch("toasts/success", router.app.$t("activities.ok_message"), {
-          root: true
-        });
       },
       error => {
         commit("getOneFailure", error);
@@ -114,14 +106,10 @@ const getters = {
   itemsCount: _state => _state.items.length,
   allItems: _state => _state.items,
   itemById: _state => uuid => {
-    const found = _state.items.find(item => item.id === uuid);
-    return found;
+    return _state.items.find(item => item.id === uuid);
   },
   itemByName: _state => name => {
-    const found = _state.items.find(item => item.activity.name.includes(name));
-    // console.log("Found free activity by name: ", found && found.activity.name);
-    // console.log("Found free activity by name: ", found);
-    return found;
+    return _state.items.find(item => item.activity.name.includes(name));
   }
 };
 

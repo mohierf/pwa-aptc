@@ -40,7 +40,6 @@ export function handleResponse(response) {
         });
       }
 
-      console.log("Promise.reject");
       return Promise.reject(error);
     }
 

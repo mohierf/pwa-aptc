@@ -23,15 +23,22 @@
     :footer-bg-variant="footerBgVariant || 'dark'"
     :footer-text-variant="footerTextVariant || 'light'"
   >
-    <img alt="Application logo and name" src="../assets/logo.png" />
+    <img
+      :alt="$t('logo.alt')"
+      :title="$t('logo.title')"
+      src="../assets/logo.png"
+      class="float-left logo"
+    />
 
-    <h1>{{ $t("legals.header") }}</h1>
+    <div class="float-right">
+      <h1>{{ $t("legals.header") }}</h1>
 
-    <p class="my-4 mx-4" v-html="$t('legals.p1')"></p>
-    <p class="my-4 mx-4" v-html="$t('legals.p2')"></p>
-    <p class="my-4 mx-4" v-html="$t('legals.p3')"></p>
-    <p class="my-4 mx-4" v-html="$t('legals.p4')"></p>
-    <p class="my-4 mx-4" v-html="$t('legals.p5')"></p>
+      <p class="my-4 mx-4" v-html="$t('legals.p1')"></p>
+      <p class="my-4 mx-4" v-html="$t('legals.p2')"></p>
+      <p class="my-4 mx-4" v-html="$t('legals.p3')"></p>
+      <p class="my-4 mx-4" v-html="$t('legals.p4')"></p>
+      <p class="my-4 mx-4" v-html="$t('legals.p5')"></p>
+    </div>
 
     <template v-slot:modal-footer>
       <div class="w-100 text-right">
@@ -59,3 +66,10 @@ export default {
   }
 };
 </script>
+
+<style>
+img.logo {
+  width: 100%;
+  max-width: 256px;
+}
+</style>

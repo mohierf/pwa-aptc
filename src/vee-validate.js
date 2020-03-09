@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { required, email } from "vee-validate/dist/rules";
+import { required, email, image } from "vee-validate/dist/rules";
 import { extend, configure, localize } from "vee-validate";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
@@ -26,7 +26,7 @@ extend("required", required);
 extend("email", email);
 
 // Install image rule
-// extend("image", image);
+extend("image", image);
 
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("ValidationObserver", ValidationObserver);

@@ -1,7 +1,7 @@
 import { userService } from "../_services";
 // import { machineService } from "../_services";
 import { jwtParse, writeToStorage } from "../_helpers";
-import { router } from "../_helpers/router";
+import { router } from "../_helpers";
 import { readFromStorage } from "../_helpers/local-storage";
 // import moment from "moment";
 
@@ -185,6 +185,11 @@ const mutations = {
     _state.status = "success";
     _state.access_token = readFromStorage("access_token") || "";
     _state.refresh_token = readFromStorage("refresh_token") || "";
+
+    const parsed = jwtParse(_state.access_token);
+    // I got my own UUID
+    writeToStorage("user_id", parsed.id);
+    console.log("My UUID: ", parsed.id);
 
     // // Next expiry is
     // const parsed = jwtParse(_state.access_token);

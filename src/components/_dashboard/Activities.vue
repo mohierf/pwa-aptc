@@ -55,6 +55,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { store } from "../../_store";
+import { router } from "../../_helpers";
 
 export default {
   name: "cmp-activities",
@@ -113,62 +114,23 @@ export default {
   created() {
     // Event handler when all activities were fully loaded
     this.$root.$on("got_all_activities", () => {
-      console.log("Got all !");
+      store.dispatch("toasts/success", router.app.$t("activities.ok_message"), {
+        root: true
+      });
 
-      console.log("Trying to get Poids...");
-      const widget = this.itemByName("Suivi du poids");
-      if (widget) {
-        console.log("Found");
+      const activity = this.itemByName("Suivi du poids");
+      if (activity) {
+        console.log("Activity:", activity.activity["@id"]);
 
-        const allItems = widget.activity.activityValues;
-        for (let index = 0; index < allItems.length; index++) {
-          const activityValue = widget.activity.activityValues[index];
-          const value = activityValue.value;
-          console.log("av: ", value);
+        const allValues = activity.activity.activityValues;
+        for (let index = 0; index < allValues.length; index++) {
+          const value = allValues[index].value;
 
           // Ignore not active values
           if (value.active) {
+            // Add the activity IRI in the value data for the answer
+            value["activityId"] = activity.activity["@id"];
             store.commit("values/setOne", value, { root: true });
-
-            // console.log("av: ", value.id, value.name);
-            // console.log("- type: ", value.type);
-            // console.log("- version: ", value.version);
-            // console.log("- question: ", value.question);
-            // console.log(
-            //   "- author: ",
-            //   value.author.id,
-            //   value.author.firstname,
-            //   value.author.lastname
-            // );
-            // console.log("- board display: ", value.boardDisplay);
-            // console.log("- mandatory answer: ", value.mandatoryAnswer);
-            //
-            // console.log("- properties: ", value.properties);
-            // console.log("  - bounds type: ", value.properties.boundsType);
-            // console.log("  - bounds types: ", value.properties.boundsTypes);
-            // console.log("  - min value: ", value.properties.minValue);
-            // console.log("  - max value: ", value.properties.maxValue);
-            // console.log(
-            //   "  - computer min value: ",
-            //   value.properties.computedMinValue
-            // );
-            // console.log(
-            //   "  - computed max value: ",
-            //   value.properties.computedMaxValue
-            // );
-            // console.log(
-            //   "  - reference value: ",
-            //   value.properties.referenceValue
-            // );
-            // console.log("  - initial value: ", value.properties.initialValue);
-            // console.log(
-            //   "  - initial value options: ",
-            //   value.properties.initialValueOptions
-            // );
-            // console.log("  - step: ", value.properties.step);
-            // console.log("  - steps: ", value.properties.steps);
-            // console.log("  - unit: ", value.properties.unit);
-            // console.log("  - unit literal: ", value.properties.unitLiteral);
           } else {
             console.warn("Activity is not active: ", value.name);
           }
@@ -179,25 +141,19 @@ export default {
     });
 
     this.loadAllFreeActivities().then(() => {
-      console.log("Loaded all activities (first run only)!");
-
       // Synchronise to be sure to get real activities...
       const start = async () => {
         const allItems = this.allItems;
         // Use a for() loop because forEach is not really able to chain promises:/
         for (let index = 0; index < allItems.length; index++) {
           const freeActivity = allItems[index];
-          // console.log("fa: ", freeActivity.id, freeActivity.activity.name);
           await this.loadOneFreeActivity(freeActivity.id);
         }
-        console.log("All activities are now really loaded!");
 
-        // Raise an event when all activities are really loaded
+        // Raise an event when all activities are fully loaded
         this.$root.$emit("got_all_activities");
       };
       start();
-
-      // return Promise.resolve("All");
     });
   }
 };

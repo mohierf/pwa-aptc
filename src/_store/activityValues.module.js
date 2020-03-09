@@ -1,5 +1,5 @@
 import { activityValueService } from "../_services";
-import { router } from "../_helpers/router";
+import { router } from "../_helpers";
 
 const state = {
   status: "",

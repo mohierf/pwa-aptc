@@ -1,41 +1,70 @@
+import { valueService } from "../_services";
+import { router } from "../_helpers";
+
 const state = {
   status: "",
   items: [],
+  lastPosted: null,
   countItems: 0,
   totalItems: 0
 };
 
 const actions = {
+  raise({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
+    commit("valuePost");
+
+    valueService.raise(answerDate, activity, valueAnswers).then(
+      aValue => {
+        if (aValue) {
+          console.log("answered", aValue);
+          const alertId = aValue.id;
+          commit("valueSuccess", {
+            id: alertId,
+            answerDate,
+            activity,
+            valueAnswers
+          });
+          setTimeout(() => {
+            // display success message after route change completes
+            dispatch("toasts/success", router.app.$t("alert.ok_message"), {
+              root: true
+            });
+          });
+        }
+      },
+      error => {
+        // Using this may raise an error in the FF console because of unhandled exception!
+        commit("valueFailure", error);
+        dispatch("toasts/error", router.app.$t(error), { root: true });
+      }
+    );
+  },
   setOne({ commit }, data) {
     commit("setOne", data);
   }
 };
 
 const mutations = {
+  valuePost(_state) {
+    _state.status = "posting";
+  },
+  valueSuccess(_state, data) {
+    _state.status = "success";
+    _state.lastPosted = data;
+  },
+  valueFailure(_state) {
+    _state.status = "error";
+    _state.lastPosted = null;
+  },
   setOne(_state, data) {
     _state.status = "success";
 
-    console.warn("Values getOne: ", data);
-    let found = _state.items.find(item => item.id === data.id);
-    if (found) {
+    if (_state.items.find(item => item.id === data.id)) {
       const index = _state.items.find(item => item.id === data.id);
-      // Remove unused information
-      delete data["patient"];
-      delete data["prescriber"];
       _state.items[index] = data;
     } else {
       _state.items.push(data);
     }
-
-    // Make it more configurable
-    const weightValue = data.name.includes("Poids");
-    if (weightValue) {
-      console.log("this", this);
-      // Raise an event because the user weight is needed
-      // this.$root.$emit("exist_value_weight");
-    }
-
-    console.warn("Values count: ", _state.items.length);
   }
 };
 
@@ -47,11 +76,9 @@ const getters = {
   },
   itemByName: _state => (name, log = false) => {
     const found = _state.items.find(item => item.name.includes(name));
-    console.log("Found value by name: ", found);
-    console.log("Found value by name: ", found && found.name);
-
     if (found && log) {
       console.log("av: ", found.id, found.name);
+      console.log("- activity: ", found.activityId);
       console.log("- type: ", found.type);
       console.log("- version: ", found.version);
       console.log("- question: ", found.question);
@@ -69,8 +96,14 @@ const getters = {
       // console.log("  - bounds types: ", found.properties.boundsTypes);
       console.log("  - min value: ", found.properties.minValue);
       console.log("  - max value: ", found.properties.maxValue);
-      console.log("  - computed min value: ", found.properties.computedMinValue);
-      console.log("  - computed max value: ", found.properties.computedMaxValue);
+      console.log(
+        "  - computed min value: ",
+        found.properties.computedMinValue
+      );
+      console.log(
+        "  - computed max value: ",
+        found.properties.computedMaxValue
+      );
       console.log("  - reference value: ", found.properties.referenceValue);
       console.log("  - initial value: ", found.properties.initialValue);
       // console.log("  - initial value options: ", found.properties.initialValueOptions);
