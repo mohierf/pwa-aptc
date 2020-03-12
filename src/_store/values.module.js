@@ -10,10 +10,10 @@ const state = {
 };
 
 const actions = {
-  raise({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
+  newValue({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
     commit("valuePost");
 
-    valueService.raise(answerDate, activity, valueAnswers).then(
+    valueService.newValue(answerDate, activity, valueAnswers).then(
       aValue => {
         if (aValue) {
           console.log("answered", aValue);

@@ -13,6 +13,7 @@ import { activities } from "./activities.module";
 import { phes } from "./phes.module";
 import { patients } from "./patients.module";
 import { values } from "./values.module";
+import { valueAnswers } from "./valueAnswer.module";
 
 Vue.use(Vuex);
 
@@ -24,7 +25,8 @@ export const store = new Vuex.Store({
     activities,
     phes,
     patients,
-    values
+    values,
+    valueAnswers
   },
   plugins: [vuexLocal.plugin]
 });

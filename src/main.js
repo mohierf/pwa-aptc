@@ -31,8 +31,9 @@ import VueMoment from "vue-moment";
 import moment from "moment-timezone";
 // Set the default timezone
 moment.tz.setDefault();
+moment.locale("fr");
 // To view the current timezone used for non tz-aware dates:
-// console.log(moment.tz.guess(true));
+console.log(moment.locale(), moment.tz.guess(true));
 Vue.use(VueMoment, {
   moment
 });

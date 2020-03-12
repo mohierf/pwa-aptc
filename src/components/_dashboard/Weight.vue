@@ -30,8 +30,8 @@
             </b-form-invalid-feedback>
 
             <!-- This is a form text block (formerly known as help block) -->
-            <b-form-text id="input-weight-help"
-              >Your weight... and do not lie ;-)
+            <b-form-text id="input-weight-help">
+              Last answer: {{ weight }} sent on {{ lastAnswerDate }}
             </b-form-text>
           </div>
 
@@ -40,6 +40,13 @@
             &nbsp;{{ $t("actions.b_alert") }}
           </b-button>
         </b-form>
+
+        <div class="container">
+          <line-chart
+                  v-if="loaded"
+                  :chartdata="chartData"
+                  :options="options"/>
+        </div>
 
         <b-form @submit="onSubmitPicture" @reset="onResetPicture">
           <div role="group">
@@ -104,6 +111,8 @@ import { mapGetters, mapState, mapActions } from "vuex";
 import moment from "moment-timezone";
 import { mediaService } from "../../_services";
 // import { router } from "../../_helpers";
+import { toApiDate, fromApiDate } from "../../_helpers";
+// import { LineChart } from "../LineChart";
 
 export default {
   name: "cmp-weight",
@@ -113,7 +122,16 @@ export default {
       initialWeight: 100,
       picture: null,
       my_file: null,
-      this.medias: []
+      lastAnswerDate: null,
+      // Pictures
+      medias: [],
+      // Chart
+      loaded: false,
+      chartData: null,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
   props: {
@@ -123,16 +141,17 @@ export default {
     data: Object
   },
   components: {
-    CmpBaseTile: () => import("./BaseTile")
+    CmpBaseTile: () => import("./BaseTile"),
+    LineChart: () => import("../LineChart")
   },
   computed: {
     ...mapState({
       values: state => state.values
     }),
     ...mapGetters({
-      allItems: "values/allItems",
-      itemsCount: "values/itemsCount",
-      itemById: "values/itemById",
+      allItems: "valueAnswers/allItems",
+      // itemsCount: "valueAnswers/itemsCount",
+      // itemById: "valueAnswers/itemById",
       itemByName: "values/itemByName"
     }),
     weightState() {
@@ -186,12 +205,45 @@ export default {
           } else {
             console.error("Not any last value available...");
           }
+
+          this.getAll(value["id"]).then(() => {
+            let labels = [];
+            let values = [];
+            let firstValue = true;
+            this.allItems.forEach((item) => {
+              if (firstValue) {
+                // const ad = fromApiDate(item.answerDate);
+                this.lastAnswerDate = fromApiDate(item.receiptDate, "LLL");
+                this.weight = parseInt(item.answer.value);
+                this.initialWeight = this.weight;
+
+                firstValue = false;
+              }
+
+              labels.push(fromApiDate(item.receiptDate, "LLL"));
+              values.push(parseInt(item.answer.value));
+            });
+
+            this.chartData = {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Data One',
+                  backgroundColor: '#f87979',
+                  data: values
+                }
+              ]
+            };
+            this.loaded = true
+          });
         }
       }
     });
   },
   methods: {
     ...mapActions("values", ["newValue"]),
+    ...mapActions("valueAnswers", ["getAll"]),
+    ...mapActions("valueAnswers", ["getLast"]),
     // ...mapActions("media", ["newMedia"]),
     onWeightChange() {
       // Update data on modal state change
@@ -199,9 +251,18 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
-      // Format the moment.js date to a string
-      const answerDate = moment();
-      const fmtDate = answerDate.format("YYYY-MM-DD hh:mm:ss");
+      // // Format the moment.js date to a string
+      // let answerDate = moment.tz("Europe/Paris");
+      // // dateFormat(answerDate);
+      // console.log("Local", answerDate.format("YYYY-MM-DD HH:mm:ss"));
+      // answerDate.tz("UTC");
+      // console.log("UTC", answerDate.format("YYYY-MM-DD HH:mm:ss"));
+      //
+      const fmtDate = toApiDate(moment());
+
+      // const fmtDate = answerDate.toISOString();
+      // const newDate = answerDate.clone().tz("Europe/Paris");
+      // const fmtDate2 = newDate.format("YYYY-MM-DD HH:mm:ss");
       let answers = [
         {
           value: this.id,
@@ -210,13 +271,14 @@ export default {
           answer: { value: this.weight }
         }
       ];
-      this.raise({
+      this.newValue({
         answerDate: fmtDate,
         activity: this.activity,
         valueAnswers: answers
-      }).then(() => {
-        // Raise a signal for the root application
-        this.$root.$emit("new_log");
+      }).then(rsp => {
+        console.log("Updated !", rsp);
+        // // Raise a signal for the root application
+        // this.$root.$emit("new_log");
       });
     },
     onReset() {

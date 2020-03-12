@@ -39,8 +39,11 @@ export const backendConfig = {
   activityValuesEndpoint: "/activity_values",
   valuesEndpoint: "/values",
 
-  // Send information
-  answerEndpoint: "/activity_answers",
+  // Get former answers
+  valueAnswerEndpoint: "/value_answers",
+
+  // Send answer values
+  activityAnswerEndpoint: "/activity_answers",
 
   // Media information
   mediaEndpoint: "/media/add",

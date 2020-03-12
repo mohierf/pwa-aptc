@@ -44,14 +44,14 @@ function newMedia(picture) {
   return fetch(`${backendConfig.apiUrl}${backendConfig.mediaEndpoint}`, {
     method: "POST",
     headers: {
-      "Authorization": "Bearer " + token,
+      Authorization: "Bearer " + token
       // Do not specify the content type, else it will fail!
       // "Content-type": "multipart/form-data"
     },
     body: data
   })
-  .then(handleResponse)
-  .then(response => {
-    console.log("Yes!", response)
-  });
+    .then(handleResponse)
+    .then(response => {
+      console.log("Yes!", response);
+    });
 }

@@ -1,4 +1,5 @@
 export * from "./local-storage";
+export * from "./date-formatter";
 export * from "./jwt-parser";
 export * from "./form-encoder";
 export * from "./backend-config";

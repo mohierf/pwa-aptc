@@ -41,13 +41,8 @@ function post(url, data) {
 
 function postMedia(url, data) {
   return fetch(
-      `${backendConfig.apiUrl}${url}`,
-    requestOptions.post(
-      data,
-      null,
-      true,
-      url
-    )
+    `${backendConfig.apiUrl}${url}`,
+    requestOptions.post(data, null, true, url)
   )
     .then(handleResponse)
     .then(body => {
