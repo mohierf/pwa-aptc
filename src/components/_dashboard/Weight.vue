@@ -40,80 +40,26 @@
             &nbsp;{{ $t("actions.b_alert") }}
           </b-button>
         </b-form>
-
-        <b-form @submit="onSubmitPicture" @reset="onResetPicture">
-          <div role="group">
-            <div v-if="picture" class="clearfix">
-              <div class="w-100 text-center p-1">
-                <b-img
-                  :src="picture"
-                  alt="Problem illustration picture"
-                  class="uploadImage"
-                ></b-img>
-              </div>
-              <div class="w-100 text-center p-2">
-                <b-button variant="danger" @click="removeImage"
-                  >{{ $t("actions.b_remove") }}
-                </b-button>
-              </div>
-            </div>
-            <ValidationProvider
-              v-else
-              rules="image"
-              name="f_picture"
-              v-slot="{ valid, errors }"
-            >
-              <b-form-group
-                id="input-group-3"
-                :label="$t('fields.f_picture')"
-                label-for="input-3"
-                :description="$t('fields.d_picture')"
-              >
-                <b-form-file
-                  id="input-3"
-                  v-model="picture"
-                  capture
-                  accept="image/*"
-                  :state="errors[0] ? false : valid ? true : null"
-                  :placeholder="$t('fields.p_picture')"
-                  :browse-text="$t('actions.b_browse')"
-                  :drop-placeholder="$t('fields.p_drop_picture')"
-                  @change="onFileChange"
-                  ref="fileInput"
-                ></b-form-file>
-
-                <b-form-invalid-feedback id="inputLiveFeedback"
-                  >{{ errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </ValidationProvider>
-          </div>
-
-          <b-button type="submit" variant="primary">
-            <font-awesome-icon icon="share" />
-            &nbsp;{{ $t("actions.b_alert") }}
-          </b-button>
-        </b-form>
       </b-card-text>
     </template>
   </cmp-base-tile>
 </template>
 
 <script>
+// import { store } from "../../_store";
 import { mapGetters, mapState, mapActions } from "vuex";
 import moment from "moment-timezone";
-import { mediaService } from "../../_services";
-// import { router } from "../../_helpers";
+import { answerService } from "../../_services";
 
 export default {
   name: "cmp-weight",
   data() {
     return {
-      weight: 100,
-      initialWeight: 100,
+      weight: 10,
+      initialWeight: 0,
       picture: null,
       my_file: null,
-      this.medias: []
+      medias: []
     };
   },
   props: {
@@ -130,13 +76,12 @@ export default {
       values: state => state.values
     }),
     ...mapGetters({
-      allItems: "values/allItems",
-      itemsCount: "values/itemsCount",
-      itemById: "values/itemById",
-      itemByName: "values/itemByName"
+      valueByName: "freeActivities/valueByName",
+      allValuesAnswers: "answers/allItems",
+      answerByIndex: "answers/itemByIndex"
     }),
     weightState() {
-      return this.weight > this.min && this.weight < this.max;
+      return this.weight >= this.data.min && this.weight <= this.data.max;
     },
     question() {
       return this.data.question || "Tu pèses combien ?";
@@ -155,46 +100,63 @@ export default {
     }
   },
   created() {
-    // Event handler when a weight value is existing
-    this.$root.$on("exist_value_weight", () => {
-      const value = this.itemByName("Poids", true);
-      if (value) {
-        console.warn("Found!!!!!");
+    this.$root.$on("got_all_my_activities", () => {
+      const weightValue = this.valueByName("Poids", false);
+      if (!weightValue) {
+        console.error("No weight value!");
+        return;
       }
-    });
+      console.log(weightValue);
 
-    // Subscribe to the new weight in the store
-    this.$store.subscribe(mutation => {
-      if (mutation.type === "values/setOne") {
-        const value = this.itemByName("Poids", false);
-        if (value) {
-          console.warn("Found remote weight!", value);
-          // fixme: value id should be the IRI!
-          // this.id = value['@id'];
-          // fixme: value id should be provided as an IRI!
-          this.id = "/values/" + value["id"];
+      // Store apart the found value
+      // store.commit("values/setOne", weight);
 
-          this.activity = value.activityId;
-          this.version = value.version;
+      // fixme: value id should be the IRI!
+      // this.id = weightValue['@id'];
+      // fixme: value id should be provided as an IRI!
+      this.id = "/values/" + weightValue["id"];
 
-          this.data.min = value.properties.minValue;
-          this.data.max = value.properties.maxValue;
-          this.data.unit = value.properties.unitLiteral;
-          if (value.properties.lastValueAnswer) {
-            this.weight = parseInt(value.properties.lastValueAnswer.value);
-            this.initialWeight = this.weight;
-          } else {
-            console.error("Not any last value available...");
-          }
+      this.activity = weightValue.activityId;
+      this.version = weightValue.version;
+
+      this.data.min = weightValue.properties.minValue;
+      this.data.max = weightValue.properties.maxValue;
+      this.data.unit = weightValue.properties.unitLiteral;
+      if (
+        weightValue.properties.initialValue &&
+        weightValue.properties.initialValue === "lastPatientValue"
+      ) {
+        if (weightValue.properties.lastValueAnswer) {
+          this.weight = parseInt(weightValue.properties.lastValueAnswer.value);
+          this.initialWeight = this.weight;
         }
       }
+
+      // Get the last activity answer
+      this.loadAllActivitiesAnswers({
+        activityId: this.activity,
+        itemsCount: 1
+      }).then(answers => {
+        console.log("Got all activity answers", answers);
+      });
+
+      // Get the last value answer
+      this.loadAllValuesAnswers({
+        valueId: weightValue["id"],
+        itemsCount: 1
+      }).then(answers => {
+        console.log("Got all answers", answers);
+        console.log("Yes, I got them all:", this.answerByIndex(0));
+      });
     });
   },
   methods: {
-    ...mapActions("values", ["newValue"]),
-    // ...mapActions("media", ["newMedia"]),
+    ...mapActions({
+      loadAllActivitiesAnswers: "answers/getAllActivitiesAnswers",
+      loadAllValuesAnswers: "answers/getAllValuesAnswers"
+    }),
     onWeightChange() {
-      // Update data on modal state change
+      // Update data on slider state change
       console.log("Changed for: ", this.weight);
     },
     onSubmit(evt) {
@@ -202,6 +164,7 @@ export default {
       // Format the moment.js date to a string
       const answerDate = moment();
       const fmtDate = answerDate.format("YYYY-MM-DD hh:mm:ss");
+      console.log(answerDate.format(), answerDate.utc().format());
       let answers = [
         {
           value: this.id,
@@ -210,78 +173,27 @@ export default {
           answer: { value: this.weight }
         }
       ];
-      this.raise({
-        answerDate: fmtDate,
-        activity: this.activity,
-        valueAnswers: answers
-      }).then(() => {
-        // Raise a signal for the root application
-        this.$root.$emit("new_log");
-      });
+
+      console.log(fmtDate, this.activity, answers);
+      answerService.newValue(fmtDate, this.activity, answers).then(
+        aValue => {
+          if (aValue) {
+            console.log(aValue);
+            // Returns id, type, and originalName
+            // this.medias.push(aService);
+          }
+        },
+        error => {
+          console.error("Error when posting answers", error);
+        }
+      );
     },
     onReset() {
       this.weight = this.initialWeight;
       requestAnimationFrame(() => {
         this.$refs.observer.reset();
       });
-    },
-    onSubmitPicture(evt) {
-      evt.preventDefault();
-
-      mediaService.newMedia(this.my_file).then(
-        aMedia => {
-          if (aMedia) {
-            // Returns id, type, and originalName
-            this.medias.push(aMedia);
-          }
-        },
-        error => {
-          console.error("Error when posting a media", error);
-        }
-      );
-    },
-    onResetPicture() {
-      this.picture = null;
-      this.medias = [];
-      requestAnimationFrame(() => {
-        this.$refs.observer.reset();
-      });
-    },
-    onFileChange(e) {
-      const files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      this.createImage(files[0]);
-    },
-    createImage(file) {
-      let vm = this;
-      const reader = new FileReader();
-      reader.onload = e => {
-        vm.picture = e.target.result;
-        vm.my_file = file;
-      };
-      reader.readAsDataURL(file);
-    },
-    removeImage: function() {
-      this.picture = null;
-    }
-  },
-  watch: {
-    status(newValue, oldValue) {
-      console.log(`Updating from ${oldValue} to ${newValue}`);
-
-      // Do whatever makes sense now
-      if (newValue === "success") {
-        this.complex = {
-          deep: "some deep object"
-        };
-      }
     }
   }
 };
 </script>
-
-<style lang="css">
-.uploadImage {
-  width: 60%;
-}
-</style>

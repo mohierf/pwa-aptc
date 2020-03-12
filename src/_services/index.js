@@ -1,5 +1,4 @@
-export * from "./activity.service";
-export * from "./activityValue.service";
+export * from "./answer.service";
 export * from "./freeActivity.service";
 export * from "./machine.service";
 export * from "./media.service";

@@ -22,6 +22,7 @@ function get(url) {
     })
     .catch(error => {
       console.log("Machine Get error:", error);
+      return error;
     });
 }
 

@@ -1,4 +1,4 @@
-import { valueService } from "../_services";
+import { mediaService } from "../_services";
 import { router } from "../_helpers";
 
 const state = {
@@ -13,7 +13,7 @@ const actions = {
   raise({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
     commit("valuePost");
 
-    valueService.raise(answerDate, activity, valueAnswers).then(
+    mediaService.raise(answerDate, activity, valueAnswers).then(
       aValue => {
         if (aValue) {
           console.log("answered", aValue);
@@ -60,7 +60,7 @@ const mutations = {
     _state.status = "success";
 
     if (_state.items.find(item => item.id === data.id)) {
-      const index = _state.items.findIndex(item => item.id === data.id);
+      const index = _state.items.find(item => item.id === data.id);
       _state.items[index] = data;
     } else {
       _state.items.push(data);
@@ -116,7 +116,7 @@ const getters = {
   }
 };
 
-export const values = {
+export const medias = {
   namespaced: true,
   state,
   actions,

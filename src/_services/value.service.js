@@ -2,7 +2,7 @@
  * Values services
  */
 
-import { backendConfig, requestOptions, handleResponse } from "../_helpers";
+import {backendConfig, requestOptions, handleResponse, readFromStorage} from "../_helpers";
 import { machineService } from "../_services";
 import { uuid } from "vue-uuid";
 
@@ -12,7 +12,7 @@ export const valueService = {
 };
 
 function getById(uuid) {
-  console.log("Answers - getById", backendConfig.apiUser);
+  console.log("Value - getById", backendConfig.apiUser);
   if (backendConfig.apiUser) {
     return machineService.get(`${backendConfig.activitiesEndpoint}/` + uuid);
   }
@@ -24,19 +24,22 @@ function getById(uuid) {
 }
 
 function newValue(answerDate, activity, valueAnswers) {
-  const data = {
+  const my_iri = readFromStorage("user_iri");
+  const data = JSON.stringify({
     id: uuid.v4(),
+    patient: my_iri,
     activity: activity,
     valueAnswers: valueAnswers,
     answerDate: answerDate
-  };
+  });
+  console.log(data);
 
   if (backendConfig.apiUser) {
     console.log("machine - new value");
-    return machineService.post(`${backendConfig.answerEndpoint}`, data);
+    return machineService.post(`${backendConfig.activityAnswerEndpoint}`, data);
   }
   return fetch(
-    `${backendConfig.apiUrl}${backendConfig.answerEndpoint}`,
+    `${backendConfig.apiUrl}${backendConfig.activityAnswerEndpoint}`,
     requestOptions.post(data)
   ).then(handleResponse);
 }

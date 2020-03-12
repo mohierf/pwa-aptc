@@ -6,24 +6,26 @@ const vuexLocal = new VuexPersistence({
   key: process.env.VUE_APP_STORE_KEY || "pwa-store"
 });
 
-import { user } from "./user.module";
-import { toasts } from "./toasts.module";
+import { answers } from "./answers.module";
 import { freeActivities } from "./freeActivities.module";
-import { activities } from "./activities.module";
-import { phes } from "./phes.module";
 import { patients } from "./patients.module";
+import { medias } from "./medias.module";
+import { phes } from "./phes.module";
+import { toasts } from "./toasts.module";
+import { user } from "./user.module";
 import { values } from "./values.module";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   modules: {
-    user,
-    toasts,
+    answers,
     freeActivities,
-    activities,
-    phes,
+    medias,
     patients,
+    phes,
+    toasts,
+    user,
     values
   },
   plugins: [vuexLocal.plugin]

@@ -35,9 +35,9 @@ export function handleResponse(response) {
       }
 
       if (response.status === 403) {
-        store.dispatch("user/userDenied", error, { root: true }).then(() => {
-          console.log("403!", error, response);
-        });
+        // store.dispatch("user/userDenied", error, { root: true }).then(() => {
+        //   console.log("403!", error, response);
+        // });
       }
 
       return Promise.reject(error);

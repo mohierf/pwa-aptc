@@ -110,6 +110,72 @@ const getters = {
   },
   itemByName: _state => name => {
     return _state.items.find(item => item.activity.name.includes(name));
+  },
+  valueByName: _state => (name, log = false) => {
+    // Parse all activities to search for the first value meeting the name requirement
+    for (let index = 0; index < _state.items.length; index++) {
+      const activity = _state.items[index];
+      if (! activity) {
+        continue;
+      }
+      const values = activity.activity.activityValues;
+      const found =
+        values &&
+        values.find(
+          item =>
+            item.value.active &&
+            item.value.name &&
+            item.value.name.includes(name)
+        );
+      if (values && found) {
+        let value = found.value;
+        // Get the IRI
+        value["activityId"] = activity.activity["@id"];
+        // // Get the ID
+        // value["activityId"] = activity.activity["id"];
+
+        if (log) {
+          console.log("av: ", value.id, value.name);
+          console.log("- activity: ", value.activityId);
+          console.log("- type: ", value.type);
+          console.log("- version: ", value.version);
+          console.log("- question: ", value.question);
+          // console.log(
+          //     "- author: ",
+          //     value.author.id,
+          //     value.author.firstname,
+          //     value.author.lastname
+          // );
+          console.log("- board display: ", value.boardDisplay);
+          console.log("- mandatory answer: ", value.mandatoryAnswer);
+
+          console.log("- properties: ", value.properties);
+          console.log("  - bounds type: ", value.properties.boundsType);
+          // console.log("  - bounds types: ", value.properties.boundsTypes);
+          console.log("  - min value: ", value.properties.minValue);
+          console.log("  - max value: ", value.properties.maxValue);
+          console.log(
+            "  - computed min value: ",
+            value.properties.computedMinValue
+          );
+          console.log(
+            "  - computed max value: ",
+            value.properties.computedMaxValue
+          );
+          console.log("  - reference value: ", value.properties.referenceValue);
+          console.log("  - initial value: ", value.properties.initialValue);
+          // console.log("  - initial value options: ", value.properties.initialValueOptions);
+          console.log("  - step: ", value.properties.step);
+          // console.log("  - steps: ", value.properties.steps);
+          // console.log("  - unit: ", value.properties.unit);
+          console.log("  - unit literal: ", value.properties.unitLiteral);
+        }
+
+        return value;
+      }
+
+      // return undefined;
+    }
   }
 };
 

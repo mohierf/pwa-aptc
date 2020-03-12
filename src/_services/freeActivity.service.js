@@ -28,7 +28,7 @@ function getAll() {
 function getById(uuid) {
   if (backendConfig.apiUser) {
     return machineService.get(
-      `${backendConfig.freeActivitiesEndpoint}/` + uuid
+      `${backendConfig.freeActivitiesEndpoint}/${uuid}`
     );
   }
 

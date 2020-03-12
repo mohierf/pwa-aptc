@@ -105,7 +105,7 @@ export default {
       allItems: "freeActivities/allItems",
       itemsCount: "freeActivities/itemsCount",
       itemById: "freeActivities/itemById",
-      itemByName: "freeActivities/itemByName"
+      activityByName: "freeActivities/itemByName"
     }),
     rows() {
       return this.itemsCount;
@@ -113,45 +113,29 @@ export default {
   },
   created() {
     // Event handler when all activities were fully loaded
-    this.$root.$on("got_all_activities", () => {
+    this.$root.$on("got_all_my_activities", () => {
       store.dispatch("toasts/success", router.app.$t("activities.ok_message"), {
         root: true
       });
-
-      const activity = this.itemByName("Suivi du poids");
-      if (activity) {
-        console.log("Activity:", activity.activity["@id"]);
-
-        const allValues = activity.activity.activityValues;
-        for (let index = 0; index < allValues.length; index++) {
-          const value = allValues[index].value;
-
-          // Ignore not active values
-          if (value.active) {
-            // Add the activity IRI in the value data for the answer
-            value["activityId"] = activity.activity["@id"];
-            store.commit("values/setOne", value, { root: true });
-          } else {
-            console.warn("Activity is not active: ", value.name);
-          }
-        }
-      } else {
-        console.error("Not found - suivi du poids!");
-      }
     });
 
     this.loadAllFreeActivities().then(() => {
       // Synchronise to be sure to get real activities...
+      const sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      };
+
       const start = async () => {
         const allItems = this.allItems;
         // Use a for() loop because forEach is not really able to chain promises:/
         for (let index = 0; index < allItems.length; index++) {
           const freeActivity = allItems[index];
-          await this.loadOneFreeActivity(freeActivity.id);
+          // fixme: must wait some few ms else the backend returns a 403 status!
+          await sleep(10).then(() => this.loadOneFreeActivity(freeActivity.id));
         }
 
         // Raise an event when all activities are fully loaded
-        this.$root.$emit("got_all_activities");
+        this.$root.$emit("got_all_my_activities");
       };
       start();
     });

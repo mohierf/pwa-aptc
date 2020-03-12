@@ -1,5 +1,5 @@
 import { patientService } from "../_services";
-import { router } from "../_helpers";
+import {readFromStorage, router, writeToStorage} from "../_helpers";
 
 const state = {
   status: "",
@@ -88,16 +88,20 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
-    console.log("Patient: ", data);
+    // If my own data, then store my IRI...
+    const my_id = readFromStorage("user_id");
+    if (my_id === data["id"]) {
+      writeToStorage("user_iri", data["@id"]);
+    }
 
-    // let found = _state.items.find(item => item.id === data.id);
-    // if (found) {
-    //   const index = _state.items.find(item => item.id === data.id);
-    //   _state.items[index] = data;
-    // } else {
-    //   _state.items.push(data);
-    // }
-    // console.warn("Patients count: ", _state.items.length);
+    let found = _state.items.find(item => item.id === data.id);
+    if (found) {
+      const index = _state.items.find(item => item.id === data.id);
+      _state.items[index] = data;
+    } else {
+      _state.items.push(data);
+    }
+    console.warn("Stored my patients information.");
   },
   getOneFailure(_state, error) {
     _state.status = "error";

@@ -5,6 +5,7 @@ export const backendConfig = {
   // Machine API
   // -----
   // PreProd
+  // apiUser: null,
   apiUser: "fmohier",
   apiToken: "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqAco.6eRFZ.EH6NIO",
 
@@ -17,10 +18,6 @@ export const backendConfig = {
   refreshEndpoint: "/token/refresh",
   profileEndpoint: "/me/user_info",
 
-  // registerEndpoint: process.env.VUE_APP_API_ALLOW_REGISTER && "/user/register",
-  // recoverEndpoint:
-  //   process.env.VUE_APP_API_ALLOW_LOST_PASSWORD && "/user/recover",
-  //
   logoutEndpoint: "/me/logout",
   touEndpoint: "/me/accept_conditions",
 
@@ -40,7 +37,9 @@ export const backendConfig = {
   valuesEndpoint: "/values",
 
   // Send information
-  answerEndpoint: "/activity_answers",
+  activityAnswerEndpoint: "/activity_answers",
+  // Get former answers
+  valueAnswerEndpoint: "/value_answers",
 
   // Media information
   mediaEndpoint: "/media/add",

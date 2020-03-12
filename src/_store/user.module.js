@@ -17,6 +17,7 @@ const state = {
   status: "",
   access_token: readFromStorage("access_token") || "",
   refresh_token: readFromStorage("refresh_token") || "",
+  refresh_task: null,
   user: {}
 };
 
@@ -90,10 +91,19 @@ const actions = {
       let timeUntilRefresh = parseInt(parsed.exp) - now;
       timeUntilRefresh -= 3 * 60;
       when = timeUntilRefresh * 1000;
+      // fixme: to make some tests, every 5 minutes -)
+      when = 5 * 60 * 1000;
+    }
+
+    // Kill an existing task
+    if (_state.refresh_task) {
+      console.warn("Killing a former refresh task...", _state.refresh_task);
+      clearTimeout(_state.refresh_task);
     }
 
     // Start the refresh token background task
     const refreshTask = setTimeout(() => {
+      commit("refreshTask", null);
       userService.refreshTokens().then(
         () => {
           commit("refreshSuccess");
@@ -107,30 +117,6 @@ const actions = {
       );
     }, when);
     commit("refreshTask", refreshTask);
-  },
-  register({ dispatch, commit }, data) {
-    commit("registerRequest");
-
-    userService.register(data).then(
-      newUser => {
-        commit("registerSuccess", newUser);
-
-        // Navigate to login page
-        router.push("/login");
-        setTimeout(() => {
-          dispatch("toasts/loginClear", "", { root: true });
-
-          // display success message after route change completes
-          dispatch("toasts/success", router.app.$t("users.ok_register"), {
-            root: true
-          });
-        });
-      },
-      error => {
-        commit("registerFailure");
-        dispatch("toasts/loginAlert", router.app.$t(error), { root: true });
-      }
-    );
   },
   setLocale({ dispatch, commit }, locale) {
     commit("setLocale", locale.code);
@@ -196,7 +182,12 @@ const mutations = {
     // console.log("loginSuccess, next expiry: ", parsed.exp - parsed.iat);
   },
   refreshSuccess(_state) {
-    _state.access_token = readFromStorage("access_token") || "";
+    const newToken = readFromStorage("access_token") || "";
+    if (_state.access_token !== newToken) {
+      // console.log("jwt token changed: ", _state.access_token, newToken);
+      console.log("Got a new token");
+      _state.access_token = readFromStorage("access_token") || "";
+    }
     _state.refresh_token = readFromStorage("refresh_token") || "";
 
     // // JWT information:
@@ -205,8 +196,8 @@ const mutations = {
     // // the correct layout for the application. As of now, only
     // // ROLE_USER is managed!
     //
-    const parsed = jwtParse(_state.access_token);
     // I got my own UUID
+    const parsed = jwtParse(_state.access_token);
     writeToStorage("user_id", parsed.id);
 
     // // Next expiry is
@@ -243,18 +234,6 @@ const mutations = {
     if (message) {
       console.warn("Logout because: " + message);
     }
-  },
-  registerRequest(_state) {
-    _state.status = "registering";
-    _state.user = null;
-  },
-  registerSuccess(_state, _user) {
-    _state.status = "registered";
-    _state.user = _user;
-  },
-  registerFailure(_state) {
-    _state.status = "error";
-    _state.user = null;
   },
   setLocale(_state, code) {
     if (_state.user) {

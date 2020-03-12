@@ -21,6 +21,17 @@
     {
       "columns": [
         {
+          "widget": "Photos",
+          "data": {
+            "title": "Plaies",
+            "question": "Tu as mal où ?"
+          }
+        }
+      ]
+    },
+    {
+      "columns": [
+        {
           "span": "col-xs-6", "widget": "PHES",
           "data": {
             "title": "Mes PHEs",
