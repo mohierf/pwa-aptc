@@ -15,6 +15,8 @@ import { readFromStorage } from "../_helpers/local-storage";
  */
 const state = {
   status: "",
+  // A message specific for the login/register pages
+  loginMessage: "",
   access_token: readFromStorage("access_token") || "",
   refresh_token: readFromStorage("refresh_token") || "",
   refresh_task: null,
@@ -40,8 +42,6 @@ const actions = {
             // Navigate to home page
             router.push("/");
             setTimeout(() => {
-              dispatch("toasts/loginClear", "", { root: true });
-
               // display success message after route change completes
               dispatch("toasts/success", router.app.$t("users.ok_login"), {
                 root: true
@@ -50,14 +50,12 @@ const actions = {
           },
           error => {
             commit("loginFailure", error);
-            dispatch("toasts/loginAlert", error, { root: true });
             userService.logout();
           }
         );
       },
       error => {
         commit("loginFailure", error);
-        dispatch("toasts/loginAlert", error, { root: true });
         dispatch("logout", error);
       }
     );
@@ -131,7 +129,6 @@ const actions = {
       }
     );
   },
-
   userDenied({ commit }, message) {
     commit("userDenied", message);
   }
@@ -139,6 +136,14 @@ const actions = {
 
 const getters = {
   isLoggedIn: _state => !!_state.access_token,
+  lastLoginMessage: state => {
+    return state.loginMessage &&
+      state.loginMessage !== "null" &&
+      state.loginMessage !== "undefined" &&
+      Object.keys(state.loginMessage).length > 0
+      ? state.loginMessage
+      : "";
+  },
   isAuthorized: _state => {
     return _state.status && _state.status !== "denied";
   },
@@ -169,10 +174,15 @@ const mutations = {
   },
   loginSuccess(_state) {
     _state.status = "success";
+    _state.loginMessage = "";
     _state.access_token = readFromStorage("access_token") || "";
     _state.refresh_token = readFromStorage("refresh_token") || "";
 
     const parsed = jwtParse(_state.access_token);
+    if (!parsed) {
+      // No token stored locally
+      return;
+    }
     // I got my own UUID
     writeToStorage("user_id", parsed.id);
     console.log("My UUID: ", parsed.id);
@@ -218,12 +228,14 @@ const mutations = {
   profileSuccess(_state, _user) {
     _state.user = _user;
   },
-  loginFailure(_state) {
+  loginFailure(_state, message) {
     _state.status = "error";
+    _state.loginMessage = message;
     _state.user = null;
   },
   logout(_state, message) {
     _state.status = "";
+    _state.loginMessage = message;
     _state.user = null;
     _state.access_token = "";
     _state.refresh_token = "";

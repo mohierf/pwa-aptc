@@ -49,7 +49,7 @@ function getAllValuesAnswers(parameters) {
   const my_value = parameters.valueId ? `&value.id=${parameters.valueId}` : "";
   // todo: no sort possible on answerDate ... use receiptDate!
   // const sort = "&order[answerDate]=DESC";
-  const sort = "&order[receiptDate]=DESC";
+  const sort = parameters.sort ? `&order[receiptDate]=${parameters.sort}` : "";
   const pagination =
     parameters.itemsCount > 0
       ? `&pagination=true&pageSize=${parameters.itemsCount}`

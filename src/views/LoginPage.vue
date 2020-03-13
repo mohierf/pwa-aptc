@@ -93,7 +93,7 @@
             </ValidationProvider>
 
             <b-alert :show="loginFailed" variant="danger">
-              {{ toasts.loginMessage }}
+              {{ lastLoginMessage() }}
             </b-alert>
 
             <b-button
@@ -171,7 +171,7 @@ export default {
   },
   methods: {
     ...mapActions("user", ["login", "logout", "recoverPassword"]),
-    ...mapGetters("toasts", ["lastLoginMessage"]),
+    ...mapGetters("user", ["lastLoginMessage"]),
     onSubmit() {
       const { username, password } = this;
       if (username && password) {

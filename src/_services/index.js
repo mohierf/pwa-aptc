@@ -6,3 +6,4 @@ export * from "./patient.service";
 export * from "./phe.service";
 export * from "./user.service";
 export * from "./value.service";
+export * from "./valueAnswer.service";

@@ -37,9 +37,13 @@ const actions = {
     return answerService.getAllActivitiesAnswers(parameters).then(
       data => {
         commit("getAllActivitiesSuccess", data);
-        dispatch("toasts/success", router.app.$t("activitiesAnswers.ok_message"), {
-          root: true
-        });
+        dispatch(
+          "toasts/success",
+          router.app.$t("activitiesAnswers.ok_message"),
+          {
+            root: true
+          }
+        );
         return data;
       },
       error => {
@@ -69,10 +73,10 @@ const actions = {
       }
     );
   },
-  raise({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
+  newActivityAnswer({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
     commit("answerPost");
 
-    answerService.raise(answerDate, activity, valueAnswers).then(
+    answerService.newValue(answerDate, activity, valueAnswers).then(
       aValue => {
         if (aValue) {
           console.log("answered", aValue);

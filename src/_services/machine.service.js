@@ -22,7 +22,7 @@ function get(url) {
     })
     .catch(error => {
       console.log("Machine Get error:", error);
-      return error;
+      // return error;
     });
 }
 
@@ -42,13 +42,8 @@ function post(url, data) {
 
 function postMedia(url, data) {
   return fetch(
-      `${backendConfig.apiUrl}${url}`,
-    requestOptions.post(
-      data,
-      null,
-      true,
-      url
-    )
+    `${backendConfig.apiUrl}${url}`,
+    requestOptions.post(data, null, true, url)
   )
     .then(handleResponse)
     .then(body => {

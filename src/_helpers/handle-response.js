@@ -23,13 +23,15 @@ export function handleResponse(response) {
       }
 
       if (response.status === 401) {
+        console.log("401")
         // Do not care if we are logging out, else we will indefinitely log out!
         if (
           response.url !==
           `${backendConfig.apiUrl}${backendConfig.logoutEndpoint}`
         ) {
           // auto logout if 401 response returned from api
-          return store.dispatch("user/logout", error);
+          store.dispatch("user/logout", error);
+          return Promise.reject(error);
         }
         return data;
       }

@@ -131,7 +131,7 @@ export default {
         for (let index = 0; index < allItems.length; index++) {
           const freeActivity = allItems[index];
           // fixme: must wait some few ms else the backend returns a 403 status!
-          await sleep(10).then(() => this.loadOneFreeActivity(freeActivity.id));
+          await sleep(100).then(() => this.loadOneFreeActivity(freeActivity.id));
         }
 
         // Raise an event when all activities are fully loaded

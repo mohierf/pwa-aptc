@@ -2,9 +2,7 @@ const state = {
   // A notifications queue
   queue: [],
   // The maximum messages count stored in the queue
-  max: 10,
-  // A message specific for the login/register pages
-  loginMessage: ""
+  max: 10
 };
 
 const actions = {
@@ -16,22 +14,6 @@ const actions = {
   },
   error({ commit }, message) {
     commit("error", message);
-  },
-  loginAlert({ commit }, message) {
-    commit("loginAlert", message);
-  },
-  loginClear({ commit }, message) {
-    commit("loginClear", message);
-  }
-};
-
-const getters = {
-  lastLoginMessage: _state => {
-    return _state.loginMessage &&
-      _state.loginMessage !== "" &&
-      _state.loginMessage !== "undefined"
-      ? _state.loginMessage
-      : "";
   }
 };
 
@@ -77,13 +59,6 @@ const mutations = {
       // Perhaps alerting would be useful?
       _state.queue.shift();
     }
-  },
-  loginAlert(_state, message) {
-    _state.loginMessage = message;
-  },
-  // eslint-disable-next-line no-unused-vars
-  loginClear(_state, message) {
-    _state.loginMessage = "";
   }
 };
 
@@ -91,6 +66,5 @@ export const toasts = {
   namespaced: true,
   state,
   actions,
-  mutations,
-  getters
+  mutations
 };

@@ -30,8 +30,8 @@
             </b-form-invalid-feedback>
 
             <!-- This is a form text block (formerly known as help block) -->
-            <b-form-text id="input-weight-help"
-              >Your weight... and do not lie ;-)
+            <b-form-text id="input-weight-help">
+              Last answer: {{ weight }} sent on {{ lastAnswerDate }}
             </b-form-text>
           </div>
 
@@ -40,6 +40,10 @@
             &nbsp;{{ $t("actions.b_alert") }}
           </b-button>
         </b-form>
+
+        <div class="container">
+          <line-chart v-if="loaded" :chartdata="chartData" :options="options" />
+        </div>
       </b-card-text>
     </template>
   </cmp-base-tile>
@@ -49,7 +53,8 @@
 // import { store } from "../../_store";
 import { mapGetters, mapState, mapActions } from "vuex";
 import moment from "moment-timezone";
-import { answerService } from "../../_services";
+// import { answerService } from "../../_services";
+import { toApiDate, fromApiDate } from "../../_helpers";
 
 export default {
   name: "cmp-weight",
@@ -57,9 +62,19 @@ export default {
     return {
       weight: 10,
       initialWeight: 0,
-      picture: null,
-      my_file: null,
-      medias: []
+      lastAnswerDate: null,
+      // picture: null,
+      // my_file: null,
+      // medias: [],
+      // Chart
+      loaded: false,
+      chartData: null,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      },
+      chartLabels: [],
+      chartValues: []
     };
   },
   props: {
@@ -69,7 +84,8 @@ export default {
     data: Object
   },
   components: {
-    CmpBaseTile: () => import("./BaseTile")
+    CmpBaseTile: () => import("./BaseTile"),
+    LineChart: () => import("../LineChart")
   },
   computed: {
     ...mapState({
@@ -108,13 +124,11 @@ export default {
       }
       console.log(weightValue);
 
-      // Store apart the found value
-      // store.commit("values/setOne", weight);
-
       // fixme: value id should be the IRI!
       // this.id = weightValue['@id'];
       // fixme: value id should be provided as an IRI!
-      this.id = "/values/" + weightValue["id"];
+      this.id = weightValue["id"];
+      this.iri = "/values/" + this.id;
 
       this.activity = weightValue.activityId;
       this.version = weightValue.version;
@@ -132,28 +146,79 @@ export default {
         }
       }
 
-      // Get the last activity answer
-      this.loadAllActivitiesAnswers({
-        activityId: this.activity,
-        itemsCount: 1
-      }).then(answers => {
-        console.log("Got all activity answers", answers);
+      // Raise a signal for the application
+      this.$emit("last_values");
+    });
+
+    this.$on("last_values", () => {
+      // Get the last value answer
+      this.loadAllValuesAnswers({
+        valueId: this.id,
+        itemsCount: 20,
+        sort: "DESC"
+      }).then(() => {
+        let firstValue = true;
+        this.allValuesAnswers.forEach(item => {
+          if (firstValue) {
+            // const ad = fromApiDate(item.answerDate);
+            this.lastAnswerDate = fromApiDate(item.receiptDate, "LLL");
+            this.weight = parseInt(item.answer.value);
+            this.initialWeight = this.weight;
+
+            firstValue = false;
+          }
+
+          this.chartLabels.unshift(fromApiDate(item.receiptDate, "LLL"));
+          this.chartValues.unshift(parseInt(item.answer.value));
+        });
+
+        this.chartData = {
+          labels: this.chartLabels,
+          datasets: [
+            {
+              label: this.$t("weight.graph_label"),
+              backgroundColor: "#f87979",
+              data: this.chartValues
+            }
+          ]
+        };
+        this.loaded = true;
       });
+    });
+
+    this.$on("new_weight", () => {
+      this.loaded = false;
 
       // Get the last value answer
       this.loadAllValuesAnswers({
-        valueId: weightValue["id"],
-        itemsCount: 1
-      }).then(answers => {
-        console.log("Got all answers", answers);
-        console.log("Yes, I got them all:", this.answerByIndex(0));
+        valueId: this.id,
+        itemsCount: 1,
+        sort: "DESC"
+      }).then(() => {
+        this.allValuesAnswers.forEach(item => {
+          this.chartLabels.push(fromApiDate(item.receiptDate, "LLL"));
+          this.chartValues.push(parseInt(item.answer.value));
+        });
+
+        this.chartData = {
+          labels: this.chartLabels,
+          datasets: [
+            {
+              label: this.$t("weight.graph_label"),
+              backgroundColor: "#f87979",
+              data: this.chartValues
+            }
+          ]
+        };
+        this.loaded = true;
       });
     });
   },
   methods: {
     ...mapActions({
       loadAllActivitiesAnswers: "answers/getAllActivitiesAnswers",
-      loadAllValuesAnswers: "answers/getAllValuesAnswers"
+      loadAllValuesAnswers: "answers/getAllValuesAnswers",
+      newValue: "answers/newActivityAnswer"
     }),
     onWeightChange() {
       // Update data on slider state change
@@ -161,32 +226,28 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault();
-      // Format the moment.js date to a string
-      const answerDate = moment();
-      const fmtDate = answerDate.format("YYYY-MM-DD hh:mm:ss");
-      console.log(answerDate.format(), answerDate.utc().format());
+
+      const fmtDate = toApiDate(moment());
       let answers = [
         {
-          value: this.id,
+          value: this.iri,
           version: this.version,
           answerDate: fmtDate,
           answer: { value: this.weight }
         }
       ];
 
-      console.log(fmtDate, this.activity, answers);
-      answerService.newValue(fmtDate, this.activity, answers).then(
-        aValue => {
-          if (aValue) {
-            console.log(aValue);
-            // Returns id, type, and originalName
-            // this.medias.push(aService);
-          }
-        },
-        error => {
-          console.error("Error when posting answers", error);
-        }
-      );
+      this.newValue({
+        answerDate: fmtDate,
+        activity: this.activity,
+        valueAnswers: answers
+      }).then(rsp => {
+        console.log("Updated !", rsp);
+        // Raise a signal for the application
+        setTimeout(() => {
+          this.$emit("new_weight");
+        }, 3000);
+      });
     },
     onReset() {
       this.weight = this.initialWeight;

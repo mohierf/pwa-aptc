@@ -85,7 +85,7 @@ function machineHeaders(headers = null, url = null) {
   // Set authorization header with machine specific access token
   let buff = new Buffer(backendConfig.apiUser + ":" + signature);
   if (headers === null) {
-    headers = {}
+    headers = {};
   }
   headers["x-auth-token"] = buff.toString("base64");
 

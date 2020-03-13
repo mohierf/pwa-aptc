@@ -30,7 +30,7 @@ function login(username, password) {
   })
     .then(handleResponse)
     .then(tokens => {
-      if (tokens.token && tokens.refresh_token) {
+      if (tokens && tokens.token && tokens.refresh_token) {
         // store the jwt tokens in the local storage to keep user logged in between page refreshes
         writeToStorage("access_token", tokens.token);
         writeToStorage("refresh_token", tokens.refresh_token);

@@ -2,7 +2,12 @@
  * Values services
  */
 
-import {backendConfig, requestOptions, handleResponse, readFromStorage} from "../_helpers";
+import {
+  backendConfig,
+  requestOptions,
+  handleResponse,
+  readFromStorage
+} from "../_helpers";
 import { machineService } from "../_services";
 import { uuid } from "vue-uuid";
 
