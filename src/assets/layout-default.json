@@ -6,6 +6,17 @@
       "title": "Bienvenue...",
       "columns": [
         {
+          "widget": "Photos",
+          "data": {
+            "title": "Plaies",
+            "question": "Tu as mal où ?"
+          }
+        }
+      ]
+    },
+    {
+      "columns": [
+        {
           "widget": "Weight",
           "data": {
             "title": "Balance",
@@ -14,17 +25,6 @@
             "min": "30",
             "max": "300",
             "step": "5"
-          }
-        }
-      ]
-    },
-    {
-      "columns": [
-        {
-          "widget": "Photos",
-          "data": {
-            "title": "Plaies",
-            "question": "Tu as mal où ?"
           }
         }
       ]

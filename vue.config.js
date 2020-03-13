@@ -8,8 +8,10 @@ const manifestJson = fs.readFileSync("./public/manifest.json");
 const appName = JSON.parse(manifestJson).name || "Unnamed";
 
 module.exports = {
+  // chainWebpack: config => config.optimization.minimize(false),
   configureWebpack: () => {
     return {
+      // optimization: false,
       plugins: [
         new webpack.DefinePlugin({
           "process.env": {
@@ -22,7 +24,11 @@ module.exports = {
   },
   // remove vue-cli-service's progress output
   devServer: {
-    progress: false
+    progress: false,
+    overlay: {
+      warnings: true,
+      errors: true
+    }
   },
   pluginOptions: {
     i18n: {

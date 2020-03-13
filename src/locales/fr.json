@@ -133,6 +133,10 @@
     }
   },
 
+  "valuesAnswers": {
+    "ok_message": "Liste des réponses"
+  },
+
   "phes": {
     "ok_message": "Liste des événements",
     "no_items": "Pas d'événements disponibles",

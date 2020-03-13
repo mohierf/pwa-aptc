@@ -1,9 +1,7 @@
+import moment from "moment";
 import { userService } from "../_services";
-// import { machineService } from "../_services";
-import { jwtParse, writeToStorage } from "../_helpers";
+import { jwtParse, readFromStorage, writeToStorage } from "../_helpers";
 import { router } from "../_helpers";
-import { readFromStorage } from "../_helpers/local-storage";
-// import moment from "moment";
 
 /*
  * We could store the user access token/refresh token in vuex store,
@@ -218,9 +216,9 @@ const mutations = {
     // // default format is ISO8601
     // console.log(iat.format());
     //
-    // let expiry = moment(parsed.exp * 1000);
-    // // default format is ISO8601
-    // console.log(expiry.format());
+    let expiry = moment(parsed.exp * 1000);
+    // default format is ISO8601
+    console.log(expiry.format());
   },
   refreshTask(_state, task) {
     _state.refresh_task = task;

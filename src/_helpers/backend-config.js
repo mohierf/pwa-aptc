@@ -42,7 +42,8 @@ export const backendConfig = {
   valueAnswerEndpoint: "/value_answers",
 
   // Media information
-  mediaEndpoint: "/media/add",
+  mediaEndpoint: "/media/get",
+  mediaAddEndpoint: "/media/add",
 
   // Allowed users roles
   allowedRoles: ["ROLE_USER"]

@@ -50,10 +50,8 @@
 </template>
 
 <script>
-// import { store } from "../../_store";
-import { mapGetters, mapState, mapActions } from "vuex";
 import moment from "moment-timezone";
-// import { answerService } from "../../_services";
+import { mapGetters, mapActions } from "vuex";
 import { toApiDate, fromApiDate } from "../../_helpers";
 
 export default {
@@ -69,7 +67,7 @@ export default {
         labels: ["A", "B", "C"],
         datasets: [
           {
-            label: this.$t("weight.graph_label"),
+            label: "Et oui...",
             backgroundColor: "rgba(102, 16, 242, 0.5)",
             data: [1, 25, 12]
           }
@@ -113,9 +111,6 @@ export default {
     LineChart: () => import("../LineChart")
   },
   computed: {
-    ...mapState({
-      values: state => state.values
-    }),
     ...mapGetters({
       valueByName: "freeActivities/valueByName",
       allValuesAnswers: "answers/allItems",

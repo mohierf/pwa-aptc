@@ -133,6 +133,10 @@
     }
   },
 
+  "valuesAnswers": {
+    "ok_message": "Got former answers"
+  },
+
   "phes": {
     "ok_message": "Got all events",
     "no_items": "No available events",
