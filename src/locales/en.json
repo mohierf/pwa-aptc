@@ -53,7 +53,7 @@
     "hello": "Welcome {user}"
   },
   "alert": {
-    "title": "Raise a problem",
+    "title": "Raise a value",
     "ok_message": "Successful alert -)",
     "ko_message": "Problem when alerting!"
   },

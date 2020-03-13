@@ -53,9 +53,9 @@
     "hello": "Bienvenue {user}"
   },
   "alert": {
-    "title": "Signaler un problème",
-    "ok_message": "Demande d'intervention envoyée.",
-    "ko_message": "Problème lors de la demande d'intervention."
+    "title": "envoyer une information",
+    "ok_message": "Information envoyée.",
+    "ko_message": "Problème lors de l'envoi"
   },
   "login": {
     "title": "Connexion"

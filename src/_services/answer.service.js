@@ -87,10 +87,8 @@ function newValue(answerDate, activity, valueAnswers) {
     valueAnswers: valueAnswers,
     answerDate: answerDate
   });
-  console.log(data);
 
   if (backendConfig.apiUser) {
-    console.log("machine - new value");
     return machineService.post(`${backendConfig.activityAnswerEndpoint}`, data);
   }
   return fetch(

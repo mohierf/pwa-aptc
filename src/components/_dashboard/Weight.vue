@@ -63,15 +63,40 @@ export default {
       weight: 10,
       initialWeight: 0,
       lastAnswerDate: null,
-      // picture: null,
-      // my_file: null,
-      // medias: [],
       // Chart
       loaded: false,
-      chartData: null,
+      chartData: {
+        labels: ["A", "B", "C"],
+        datasets: [
+          {
+            label: this.$t("weight.graph_label"),
+            backgroundColor: "rgba(102, 16, 242, 0.5)",
+            data: [1, 25, 12]
+          }
+        ]
+      },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [
+            {
+              display: true
+            }
+          ],
+          yAxes: [
+            {
+              beginAtZero: true,
+              ticks: {
+                suggestedMin: 30,
+                suggestedMax: 150
+              }
+            }
+          ]
+        }
       },
       chartLabels: [],
       chartValues: []
@@ -122,7 +147,6 @@ export default {
         console.error("No weight value!");
         return;
       }
-      console.log(weightValue);
 
       // fixme: value id should be the IRI!
       // this.id = weightValue['@id'];
@@ -151,12 +175,16 @@ export default {
     });
 
     this.$on("last_values", () => {
+      this.chartLabels = [];
+      this.chartValues = [];
+
       // Get the last value answer
       this.loadAllValuesAnswers({
         valueId: this.id,
         itemsCount: 20,
         sort: "DESC"
       }).then(() => {
+        this.loaded = false;
         let firstValue = true;
         this.allValuesAnswers.forEach(item => {
           if (firstValue) {
@@ -172,16 +200,9 @@ export default {
           this.chartValues.unshift(parseInt(item.answer.value));
         });
 
-        this.chartData = {
-          labels: this.chartLabels,
-          datasets: [
-            {
-              label: this.$t("weight.graph_label"),
-              backgroundColor: "#f87979",
-              data: this.chartValues
-            }
-          ]
-        };
+        // Update chart data
+        this.chartData.labels = this.chartLabels;
+        this.chartData.datasets[0].data = this.chartValues;
         this.loaded = true;
       });
     });
@@ -200,16 +221,9 @@ export default {
           this.chartValues.push(parseInt(item.answer.value));
         });
 
-        this.chartData = {
-          labels: this.chartLabels,
-          datasets: [
-            {
-              label: this.$t("weight.graph_label"),
-              backgroundColor: "#f87979",
-              data: this.chartValues
-            }
-          ]
-        };
+        // Update chart data
+        this.chartData.labels = this.chartLabels;
+        this.chartData.datasets[0].data = this.chartValues;
         this.loaded = true;
       });
     });
@@ -241,13 +255,17 @@ export default {
         answerDate: fmtDate,
         activity: this.activity,
         valueAnswers: answers
-      }).then(rsp => {
-        console.log("Updated !", rsp);
-        // Raise a signal for the application
-        setTimeout(() => {
-          this.$emit("new_weight");
-        }, 3000);
-      });
+      })
+        .then(rsp => {
+          console.log("Updated !", rsp);
+          // Raise a signal for the application
+          setTimeout(() => {
+            this.$emit("new_weight");
+          }, 1000);
+        })
+        .catch(error => {
+          console.log("Error", error);
+        });
     },
     onReset() {
       this.weight = this.initialWeight;
