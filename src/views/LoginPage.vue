@@ -175,20 +175,13 @@ export default {
     onSubmit() {
       const { username, password } = this;
       if (username && password) {
-        this.login({ username, password }).catch(error => {
-          console.error("Error ***: " + error);
-        });
-      } else {
-        this.$store.dispatch(
-          "toasts/error",
-          this.$t("users.d_lost_password_username")
-        );
-      }
-    },
-    lostPassword() {
-      const { username } = this;
-      if (username) {
-        this.recoverPassword({ username });
+        this.login({ username, password })
+          .then(() => {
+            this.$root.$emit("user_signed_in");
+          })
+          .catch(error => {
+            console.error("Error ***: " + error);
+          });
       } else {
         this.$store.dispatch(
           "toasts/error",

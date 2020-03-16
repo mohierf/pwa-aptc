@@ -73,7 +73,10 @@ const actions = {
       }
     );
   },
-  newActivityAnswer({ dispatch, commit }, { answerDate, activity, valueAnswers }) {
+  newActivityAnswer(
+    { dispatch, commit },
+    { answerDate, activity, valueAnswers }
+  ) {
     commit("answerPost");
 
     answerService.newValue(answerDate, activity, valueAnswers).then(

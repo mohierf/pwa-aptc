@@ -23,7 +23,7 @@ export function handleResponse(response) {
       }
 
       if (response.status === 401) {
-        console.log("401")
+        console.log("401");
         // Do not care if we are logging out, else we will indefinitely log out!
         if (
           response.url !==

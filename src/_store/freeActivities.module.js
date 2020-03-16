@@ -115,7 +115,7 @@ const getters = {
     // Parse all activities to search for the first value meeting the name requirement
     for (let index = 0; index < _state.items.length; index++) {
       const activity = _state.items[index];
-      if (! activity) {
+      if (!activity) {
         continue;
       }
       const values = activity.activity.activityValues;

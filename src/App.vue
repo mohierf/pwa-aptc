@@ -36,32 +36,37 @@ export default {
       this.$forceUpdate();
     });
 
+    // Event handler for the logging process
+    this.$root.$on("user_signed_in", () => {
+      this.loadAllFreeActivities().then(() => {
+        // Synchronise to be sure to get real activities...
+        const sleep = ms => {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        };
+
+        const start = async () => {
+          const allItems = this.allItems;
+          // Use a for() loop because forEach is not really able to chain promises:/
+          for (let index = 0; index < allItems.length; index++) {
+            const freeActivity = allItems[index];
+            // fixme: must wait some few ms else the backend returns a 403 status!
+            await sleep(100).then(() =>
+              this.loadOneFreeActivity(freeActivity.id)
+            );
+          }
+
+          // Raise an event when all activities are fully loaded
+          this.$root.$emit("got_all_my_activities");
+        };
+        start();
+      });
+    });
+
     // Set a background refresh task to refresh the tokens
     this.$store.dispatch("user/refreshTokens", 0);
   },
   mounted() {
-    this.loadAllFreeActivities().then(() => {
-      // Synchronise to be sure to get real activities...
-      const sleep = ms => {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      };
-
-      const start = async () => {
-        const allItems = this.allItems;
-        // Use a for() loop because forEach is not really able to chain promises:/
-        for (let index = 0; index < allItems.length; index++) {
-          const freeActivity = allItems[index];
-          // fixme: must wait some few ms else the backend returns a 403 status!
-          await sleep(100).then(() =>
-            this.loadOneFreeActivity(freeActivity.id)
-          );
-        }
-
-        // Raise an event when all activities are fully loaded
-        this.$root.$emit("got_all_my_activities");
-      };
-      start();
-    });
+    this.userIsLoggedIn && this.$root.$emit("user_signed_in");
   },
   computed: {
     ...mapState({
@@ -69,7 +74,8 @@ export default {
       notifications: state => state.toasts.queue
     }),
     ...mapGetters({
-      allItems: "freeActivities/allItems"
+      allItems: "freeActivities/allItems",
+      userIsLoggedIn: "user/isLoggedIn"
     })
   },
   methods: {
