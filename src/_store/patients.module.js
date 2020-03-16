@@ -1,5 +1,5 @@
 import { patientService } from "../_services";
-import {readFromStorage, router, writeToStorage} from "../_helpers";
+import { router, readFromStorage, writeToStorage } from "../_helpers";
 
 const state = {
   status: "",
@@ -32,7 +32,8 @@ const actions = {
   getById({ dispatch, commit, getters }, uuid) {
     const existing = getters["itemById"](uuid);
     if (existing) {
-      return Promise.resolve(existing);
+      console.log("Still existing");
+      // return Promise.resolve(existing);
     }
 
     commit("getOneRequest");
@@ -96,7 +97,7 @@ const mutations = {
 
     let found = _state.items.find(item => item.id === data.id);
     if (found) {
-      const index = _state.items.find(item => item.id === data.id);
+      const index = _state.items.findIndex(item => item.id === data.id);
       _state.items[index] = data;
     } else {
       _state.items.push(data);

@@ -9,19 +9,29 @@
         <b-form @submit="onSubmit" @reset="onReset">
           <div role="group">
             <label for="input-weight">{{ question }}</label>
-            <b-form-input
-              id="input-weight"
-              type="range"
-              :min="minimum"
-              :max="maximum"
-              :step="step"
-              v-model="weight"
-              :state="weightState"
-              aria-describedby="input-weight-help input-weight-feedback"
-              placeholder="Enter your weight"
-              trim
-              @change="onWeightChange"
-            ></b-form-input>
+            <b-row>
+              <b-col cols="2">
+                <span>{{ minimum }}</span>
+              </b-col>
+              <b-col>
+                <b-form-input
+                  id="input-weight"
+                  type="range"
+                  :min="minimum"
+                  :max="maximum"
+                  :step="step"
+                  v-model="weight"
+                  :state="weightState"
+                  aria-describedby="input-weight-help input-weight-feedback"
+                  placeholder="Enter your weight"
+                  trim
+                  @change="onWeightChange"
+                ></b-form-input>
+              </b-col>
+              <b-col cols="2">
+                <span>{{ maximum }}</span>
+              </b-col>
+            </b-row>
             <div class="mt-2">Value: {{ weight }} {{ unit }}</div>
 
             <!-- This will only be shown if the preceding input has an invalid state -->
@@ -123,7 +133,7 @@ export default {
       return this.data.question || "Tu pèses combien ?";
     },
     minimum() {
-      return this.data.min || 30;
+      return this.data.min || 10;
     },
     maximum() {
       return this.data.max || 500;
@@ -152,9 +162,14 @@ export default {
       this.activity = weightValue.activityId;
       this.version = weightValue.version;
 
-      this.data.min = weightValue.properties.minValue;
-      this.data.max = weightValue.properties.maxValue;
+      this.data.min = weightValue.properties.computedMinValue
+        ? weightValue.properties.computedMinValue
+        : weightValue.properties.minValue;
+      this.data.max = weightValue.properties.computedMaxValue
+        ? weightValue.properties.computedMaxValue
+        : weightValue.properties.maxValue;
       this.data.unit = weightValue.properties.unitLiteral;
+      this.data.step = weightValue.properties.step;
       if (
         weightValue.properties.initialValue &&
         weightValue.properties.initialValue === "lastPatientValue"

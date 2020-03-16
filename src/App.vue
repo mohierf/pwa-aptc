@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import update_locale from "./vee-validate";
 
 export default {
@@ -39,14 +39,45 @@ export default {
     // Set a background refresh task to refresh the tokens
     this.$store.dispatch("user/refreshTokens", 0);
   },
+  mounted() {
+    this.loadAllFreeActivities().then(() => {
+      // Synchronise to be sure to get real activities...
+      const sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      };
+
+      const start = async () => {
+        const allItems = this.allItems;
+        // Use a for() loop because forEach is not really able to chain promises:/
+        for (let index = 0; index < allItems.length; index++) {
+          const freeActivity = allItems[index];
+          // fixme: must wait some few ms else the backend returns a 403 status!
+          await sleep(100).then(() =>
+            this.loadOneFreeActivity(freeActivity.id)
+          );
+        }
+
+        // Raise an event when all activities are fully loaded
+        this.$root.$emit("got_all_my_activities");
+      };
+      start();
+    });
+  },
   computed: {
     ...mapState({
       user: state => state.user,
       notifications: state => state.toasts.queue
+    }),
+    ...mapGetters({
+      allItems: "freeActivities/allItems"
     })
   },
   methods: {
-    ...mapActions("user", ["setLocale"])
+    ...mapActions("user", ["setLocale"]),
+    ...mapActions({
+      loadAllFreeActivities: "freeActivities/getAll",
+      loadOneFreeActivity: "freeActivities/getById"
+    })
   },
   watch: {
     notifications: {

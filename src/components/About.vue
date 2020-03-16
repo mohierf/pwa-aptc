@@ -23,7 +23,12 @@
     :footer-bg-variant="footerBgVariant || 'dark'"
     :footer-text-variant="footerTextVariant || 'light'"
   >
-    <img alt="Application logo and name" src="../assets/logo.png" />
+    <img
+      :alt="$t('logo.alt')"
+      :title="$t('logo.title')"
+      src="../assets/logo.png"
+      class="logo"
+    />
 
     <h1>{{ $t("about.header") }}</h1>
 
@@ -74,3 +79,10 @@ export default {
   }
 };
 </script>
+
+<style>
+img.logo {
+  width: 100%;
+  max-width: 256px;
+}
+</style>

@@ -122,7 +122,6 @@ export default {
         console.error("No photos value!");
         return;
       }
-      console.log("Found photos:", photosValue);
 
       // fixme: value id should be the IRI!
       // this.id = weightValue['@id'];
