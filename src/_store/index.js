@@ -7,6 +7,7 @@ const vuexLocal = new VuexPersistence({
 });
 
 import { answers } from "./answers.module";
+import { dailyMessages } from "./dailyMessages.module";
 import { freeActivities } from "./freeActivities.module";
 import { patients } from "./patients.module";
 import { medias } from "./medias.module";
@@ -20,6 +21,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   modules: {
     answers,
+    dailyMessages,
     freeActivities,
     medias,
     patients,

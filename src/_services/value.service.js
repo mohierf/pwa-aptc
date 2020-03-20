@@ -41,10 +41,10 @@ function newValue(answerDate, activity, valueAnswers) {
 
   if (backendConfig.apiUser) {
     console.log("machine - new value");
-    return machineService.post(`${backendConfig.activityAnswerEndpoint}`, data);
+    return machineService.post(`${backendConfig.activityAnswersEndpoint}`, data);
   }
   return fetch(
-    `${backendConfig.apiUrl}${backendConfig.activityAnswerEndpoint}`,
+    `${backendConfig.apiUrl}${backendConfig.activityAnswersEndpoint}`,
     requestOptions.post(data)
   ).then(handleResponse);
 }

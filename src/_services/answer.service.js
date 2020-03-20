@@ -33,12 +33,12 @@ function getAllActivitiesAnswers(parameters) {
       : "";
   if (backendConfig.apiUser) {
     return machineService.get(
-      `${backendConfig.activityAnswerEndpoint}?${my_patient}${my_activity}${sort}${pagination}`
+      `${backendConfig.activityAnswersEndpoint}?${my_patient}${my_activity}${sort}${pagination}`
     );
   }
 
   return fetch(
-    `${backendConfig.apiUrl}${backendConfig.activityAnswerEndpoint}?${my_patient}${my_activity}${sort}${pagination}`,
+    `${backendConfig.apiUrl}${backendConfig.activityAnswersEndpoint}?${my_patient}${my_activity}${sort}${pagination}`,
     requestOptions.get()
   ).then(handleResponse);
 }
@@ -56,12 +56,12 @@ function getAllValuesAnswers(parameters) {
       : "";
   if (backendConfig.apiUser) {
     return machineService.get(
-      `${backendConfig.valueAnswerEndpoint}?${my_patient}${my_value}${sort}${pagination}`
+      `${backendConfig.valueAnswersEndpoint}?${my_patient}${my_value}${sort}${pagination}`
     );
   }
 
   return fetch(
-    `${backendConfig.apiUrl}${backendConfig.valueAnswerEndpoint}?${my_patient}${my_value}${sort}${pagination}`,
+    `${backendConfig.apiUrl}${backendConfig.valueAnswersEndpoint}?${my_patient}${my_value}${sort}${pagination}`,
     requestOptions.get()
   ).then(handleResponse);
 }
@@ -89,10 +89,10 @@ function newValue(answerDate, activity, valueAnswers) {
   });
 
   if (backendConfig.apiUser) {
-    return machineService.post(`${backendConfig.activityAnswerEndpoint}`, data);
+    return machineService.post(`${backendConfig.activityAnswersEndpoint}`, data);
   }
   return fetch(
-    `${backendConfig.apiUrl}${backendConfig.activityAnswerEndpoint}`,
+    `${backendConfig.apiUrl}${backendConfig.activityAnswersEndpoint}`,
     requestOptions.post(data)
   ).then(handleResponse);
 }

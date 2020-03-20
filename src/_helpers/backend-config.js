@@ -6,8 +6,10 @@ export const backendConfig = {
   // -----
   // PreProd
   // apiUser: null,
-  apiUser: "fmohier",
-  apiToken: "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqAco.6eRFZ.EH6NIO",
+  // apiUser: "fmohier",
+  apiUser: "api_create_patient",
+  // apiToken: "$2y$15$YwyQnvuth7AdFCl5CoovwOU0n4ta7oImmrGSqAco.6eRFZ.EH6NIO",
+  apiToken: "$2y$15$/ncJgS/t1JHjLkdFTBPDmeegkZrDTcxPnlLgdSWcivTWJ87lpbM.S",
 
   // Local - test fixtures
   // apiUser: "api_create_data",
@@ -37,9 +39,12 @@ export const backendConfig = {
   valuesEndpoint: "/values",
 
   // Send information
-  activityAnswerEndpoint: "/activity_answers",
+  activityAnswersEndpoint: "/activity_answers",
   // Get former answers
-  valueAnswerEndpoint: "/value_answers",
+  valueAnswersEndpoint: "/value_answers",
+
+  // Messages
+  dailyMessagesEndpoint: "/daily_message",
 
   // Media information
   mediaEndpoint: "/media/get",

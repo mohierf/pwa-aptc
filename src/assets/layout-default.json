@@ -6,6 +6,15 @@
       "title": "Bienvenue...",
       "columns": [
         {
+          "widget": "DailyMessage",
+          "data": {
+          }
+        }
+      ]
+    },
+    {
+      "columns": [
+        {
           "widget": "Photos",
           "data": {
             "title": "Plaies",

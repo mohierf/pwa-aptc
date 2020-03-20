@@ -87,6 +87,9 @@ const mutations = {
     _state.status = "loading";
   },
   getOneSuccess(_state, data) {
+    if (!data) {
+      return;
+    }
     _state.status = "success";
 
     // If my own data, then store my IRI...

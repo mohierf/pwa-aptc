@@ -36,8 +36,12 @@ export default {
       this.$forceUpdate();
     });
 
-    // Event handler for the logging process
-    this.$root.$on("user_signed_in", () => {
+    // Set a background refresh task to refresh the tokens
+    this.$store.dispatch("user/refreshTokens", 0);
+  },
+  mounted() {
+    // Get activities only if a user is logged in
+    this.userIsLoggedIn &&
       this.loadAllFreeActivities().then(() => {
         // Synchronise to be sure to get real activities...
         const sleep = ms => {
@@ -60,18 +64,22 @@ export default {
         };
         start();
       });
-    });
 
-    // Set a background refresh task to refresh the tokens
-    this.$store.dispatch("user/refreshTokens", 0);
-  },
-  mounted() {
-    this.userIsLoggedIn && this.$root.$emit("user_signed_in");
+    // Get activities only if a user is logged in
+    this.userIsLoggedIn &&
+      this.loadAllDailyMessages().then(() => {
+        console.log("Got all !")
+        // Raise an event when all activities are fully loaded
+        this.$root.$emit("got_all_my_messages");
+      });
   },
   computed: {
     ...mapState({
       user: state => state.user,
       notifications: state => state.toasts.queue
+    }),
+    ...mapGetters("user", {
+      userIsLoggedIn: "isLoggedIn"
     }),
     ...mapGetters({
       allItems: "freeActivities/allItems",
@@ -80,10 +88,17 @@ export default {
   },
   methods: {
     ...mapActions("user", ["setLocale"]),
-    ...mapActions({
-      loadAllFreeActivities: "freeActivities/getAll",
-      loadOneFreeActivity: "freeActivities/getById"
+    ...mapActions("freeActivities", {
+      loadAllFreeActivities: "getAll",
+      loadOneFreeActivity: "getById"
+    }),
+    ...mapActions("dailyMessages", {
+      loadAllDailyMessages: "getAll"
     })
+    // ...mapActions({
+    //   loadAllFreeActivities: "freeActivities/getAll",
+    //   loadOneFreeActivity: "freeActivities/getById"
+    // })
   },
   watch: {
     notifications: {

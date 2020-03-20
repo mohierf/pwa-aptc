@@ -91,7 +91,6 @@ const mutations = {
   getOneSuccess(_state, data) {
     _state.status = "success";
 
-    console.warn("activityValues getOneSuccess: ", data);
     let found = _state.items.find(item => item.id === data.id);
     if (found) {
       const index = _state.items.find(item => item.id === data.id);
