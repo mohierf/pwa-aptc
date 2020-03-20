@@ -38,10 +38,10 @@ export default {
 
     // Set a background refresh task to refresh the tokens
     this.$store.dispatch("user/refreshTokens", 0);
-  },
-  mounted() {
-    // Get activities only if a user is logged in
-    this.userIsLoggedIn &&
+
+    // Only if a user signed in
+    this.$root.$on("user_signed_in", () => {
+      // Get activities
       this.loadAllFreeActivities().then(() => {
         // Synchronise to be sure to get real activities...
         const sleep = ms => {
@@ -65,13 +65,15 @@ export default {
         start();
       });
 
-    // Get activities only if a user is logged in
-    this.userIsLoggedIn &&
+      // Get daily message
       this.loadAllDailyMessages().then(() => {
-        console.log("Got all !")
         // Raise an event when all activities are fully loaded
         this.$root.$emit("got_all_my_messages");
       });
+    });
+  },
+  mounted() {
+    this.userIsLoggedIn && this.$root.$emit("user_signed_in");
   },
   computed: {
     ...mapState({

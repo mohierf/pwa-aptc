@@ -9,9 +9,7 @@
         <b-carousel
           id="carousel-1"
           v-model="slide"
-          :interval="4000"
-          controls
-          indicators
+          :interval="10000"
           background="#343434"
           img-width="1024"
           img-height="640"
